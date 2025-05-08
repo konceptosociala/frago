@@ -1,0 +1,76 @@
+name: frago
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_svg: ^2.1.0
+  phosphor_flutter: ^2.1.0
+  window_size: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/svg/bg.svg
+  fonts:
+    - family: Ndot
+      fonts:
+        - asset: assets/fonts/NDot/ndot-45-inspired-by-nothing.otf
+          weight: 400
+    - family: FiraSans
+      fonts:
+        - asset: assets/fonts/FiraSans/FiraSans-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/FiraSans/FiraSans-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/FiraSans/FiraSans-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/FiraSans/FiraSans-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/FiraSans/FiraSans-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/FiraSans/FiraSans-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/FiraSans/FiraSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/FiraSans/FiraSans-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/FiraSans/FiraSans-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/FiraSans/FiraSans-Black.ttf
+          weight: 900
+        - asset: assets/fonts/FiraSans/FiraSans-BlackItalic.ttf
+          weight: 900
+          style: italic
