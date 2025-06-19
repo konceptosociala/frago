@@ -26,18 +26,15 @@ class FragoThemeData {
       unselectedItemColor: Colors.white70,
     ),
     textTheme: const TextTheme(
-      headlineSmall: TextStyle(color: NothingColors.paleGrey, fontWeight: FontWeight.bold),
+      headlineSmall: TextStyle(
+        color: NothingColors.paleGrey,
+        fontWeight: FontWeight.bold,
+      ),
       bodyLarge: TextStyle(color: Color(0xFFB0B0B0)),
     ),
     dividerColor: Color(0xFF444444),
-    hoverColor: interactive 
-      ? null 
-      : Colors.transparent,
-    splashColor: interactive 
-      ? null 
-      : Colors.transparent,
-    highlightColor: interactive 
-      ? null 
-      : Colors.transparent,
+    hoverColor: interactive ? null : Colors.transparent,
+    splashColor: interactive ? null : Colors.transparent,
+    highlightColor: interactive ? null : Colors.transparent,
   );
 }

@@ -6,9 +6,10 @@ class NothingColors {
   NothingColors._();
 
   static const scarlet = Color(0xFFD71921);
-  static const almostBlack = Color(0xFF1A1D1C);
-  static const paleGrey = Color(0xFFFCFAFE);
-  static const black = Color(0xFF101012);
+  static const almostBlack = Color(0xFF1C1C1D);
+  static const darkGrey = Color(0xFF252827);
+  static const paleGrey = Color(0xFFF1F1FE);
+  static const black = Color(0xFF111112);
 }
 
 class Utils {
@@ -16,5 +17,6 @@ class Utils {
 
   static const debugPhoneSize = Size(460, 870);
 
-  static bool isDesktop() => Platform.isLinux || Platform.isWindows || Platform.isMacOS;
+  static bool isDesktop() =>
+      Platform.isLinux || Platform.isWindows || Platform.isMacOS;
 }
