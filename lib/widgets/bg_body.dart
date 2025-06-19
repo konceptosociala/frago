@@ -14,19 +14,19 @@ class BackgroundBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-        children: [
-          SizedBox.expand(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(72, 72, 72, 144),
-              child: SvgPicture.asset(
-                svgPath,
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-              ),
+      children: [
+        SizedBox.expand(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(72, 72, 72, 144),
+            child: SvgPicture.asset(
+              svgPath,
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
             ),
           ),
-          child,
-        ],
-      );
+        ),
+        child,
+      ],
+    );
   }
 }

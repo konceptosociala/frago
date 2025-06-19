@@ -29,7 +29,9 @@ class NavBar extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             currentIndex: currentScreen.toIndex(),
             onTap: (index) {
-              onScreenSelected(ScreenId.fromIndex(index));
+              if (items.length % 2 != 0 && index != (items.length / 2).floor()) {
+                onScreenSelected(ScreenId.fromIndex(index));
+              }
             },
             items: items,
           ),
@@ -37,4 +39,8 @@ class NavBar extends StatelessWidget {
       ),
     );
   }
+}
+
+class EmptyNavigationBarItem extends BottomNavigationBarItem {
+  EmptyNavigationBarItem() : super(icon: Icon(null), label: '');
 }

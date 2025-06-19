@@ -42,10 +42,9 @@ class _PostWidgetState extends State<PostWidget> {
     return Stack(
       children: [
         Material(
-          color:
-              post.selected
-                  ? NothingColors.darkGrey
-                  : NothingColors.almostBlack,
+          color: post.selected
+            ? NothingColors.darkGrey
+            : NothingColors.almostBlack,
           borderRadius: BorderRadius.circular(15),
           elevation: 0,
           child: InkWell(

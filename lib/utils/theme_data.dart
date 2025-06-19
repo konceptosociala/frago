@@ -11,6 +11,7 @@ class FragoThemeData {
     primaryColor: NothingColors.scarlet,
     appBarTheme: const AppBarTheme(
       backgroundColor: NothingColors.almostBlack,
+      surfaceTintColor: NothingColors.almostBlack,
       elevation: 0,
       iconTheme: IconThemeData(color: NothingColors.paleGrey),
       titleTextStyle: TextStyle(color: NothingColors.paleGrey, fontSize: 20),

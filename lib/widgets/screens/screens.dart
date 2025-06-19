@@ -1,48 +1,45 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
+import 'package:frago/widgets/screens/post.dart';
 
-enum ScreenId { 
-  posts, 
-  workspace, 
-  media, 
+enum ScreenId {
+  posts,
+  workspace,
+  media,
   profile;
 
-  static ScreenId fromIndex(int index) {
-    switch (index) {
-      case 0:
-        return ScreenId.posts;
-      case 1:
-        return ScreenId.workspace;
-      case 3:
-        return ScreenId.media;
-      case 4:
-        return ScreenId.profile;
-      default:
-        throw ArgumentError('Invalid index for ScreenId: $index');
-    }
-  }
+  static ScreenId fromIndex(int index) => switch (index) {
+    0 => ScreenId.posts,
+    1 => ScreenId.workspace,
+    3 => ScreenId.media,
+    4 => ScreenId.profile,
+    _ => throw ArgumentError('Invalid index for ScreenId: $index')
+  };
 
-  int toIndex() {
-    switch (this) {
-      case ScreenId.posts:
-        return 0;
-      case ScreenId.workspace:
-        return 1;
-      case ScreenId.media:
-        return 3;
-      case ScreenId.profile:
-        return 4;
-    }
-  }
+  int toIndex() => switch (this) {
+    ScreenId.posts      => 0,
+    ScreenId.workspace  => 1,
+    ScreenId.media      => 3,
+    ScreenId.profile    => 4,
+  };
+
+  @override
+  String toString() => switch (this) {
+    ScreenId.posts      => 'Posts',
+    ScreenId.workspace  => 'Workspace',
+    ScreenId.media      => 'Media',
+    ScreenId.profile    => 'Profile'
+  };
 }
 
 class Screens {
-  final Map<ScreenId, Widget> _screens = HashMap<ScreenId, Widget>();
+  final Map<ScreenId, Widget> _screens;
 
-  void insert(ScreenId id, Widget screen) {
-    _screens[id] = screen;
-  }
+  Screens() : _screens = {
+    ScreenId.posts: PostsScreen(),
+    ScreenId.workspace: Text('Workspace Screen'),
+    ScreenId.media: Text('Media Screen'),
+    ScreenId.profile: Text('Profile Screen'),
+  };
 
   Widget? get(ScreenId id) {
     return _screens[id];
