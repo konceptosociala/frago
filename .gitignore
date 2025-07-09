@@ -1,3 +1,6 @@
+simplegit/build
+simplegit/build-linux
+
 # Miscellaneous
 *.class
 *.log
@@ -43,5 +46,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-/linux

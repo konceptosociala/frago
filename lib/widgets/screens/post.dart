@@ -48,38 +48,46 @@ class _PostScreenState extends State<PostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundBody(
-      svgPath: 'assets/svg/bg.svg',
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 27.0, vertical: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            PostSelectionMenu(
-              isEnabled: postSelectionMode,
-              onExit: _exitSelectionMenu,
-              onDelete: _deleteSelected,
-              onSelectAll: _selectAll,
-            ),
-            PostsScrollview(
-              posts: posts,
-              postSelectionMode: postSelectionMode,
-              onTap: (post) {
-                if (postSelectionMode) {
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (postSelectionMode) {
+          _exitSelectionMenu();
+        }
+      },
+      canPop: !postSelectionMode,
+      child: BackgroundBody(
+        svgPath: 'assets/svg/bg.svg',
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 27.0, vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              PostSelectionMenu(
+                isEnabled: postSelectionMode,
+                onExit: _exitSelectionMenu,
+                onDelete: _deleteSelected,
+                onSelectAll: _selectAll,
+              ),
+              PostsScrollview(
+                posts: posts,
+                postSelectionMode: postSelectionMode,
+                onTap: (post) {
+                  if (postSelectionMode) {
+                    setState(() {
+                      post.selected = !post.selected;
+                    });
+                  }
+                },
+                onLongPress: (post) {
                   setState(() {
+                    postSelectionMode = true;
                     post.selected = !post.selected;
                   });
-                }
-              },
-              onLongPress: (post) {
-                setState(() {
-                  postSelectionMode = true;
-                  post.selected = !post.selected;
-                });
-              }
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

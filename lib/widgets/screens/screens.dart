@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frago/widgets/screens/post.dart';
+import 'package:simplegit/simplegit.dart';
 
 enum ScreenId {
   posts,
@@ -38,7 +39,7 @@ class Screens {
     ScreenId.posts: PostsScreen(),
     ScreenId.workspace: Text('Workspace Screen'),
     ScreenId.media: Text('Media Screen'),
-    ScreenId.profile: Text('Profile Screen'),
+    ScreenId.profile: Text(version()),
   };
 
   Widget? get(ScreenId id) {

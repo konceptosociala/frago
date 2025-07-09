@@ -7,6 +7,8 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
+  simplegit:
+    path: simplegit
   flutter:
     sdk: flutter
   flutter_svg: ^2.1.0

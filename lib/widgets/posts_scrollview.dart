@@ -20,9 +20,8 @@ class PostsScrollview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(
-          context,
-        ).copyWith(scrollbars: false, overscroll: false),
+        behavior: ScrollConfiguration.of(context)
+          .copyWith(scrollbars: false, overscroll: false),
         child: SingleChildScrollView(
           child: Column(
             children: [
