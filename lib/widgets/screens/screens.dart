@@ -39,7 +39,7 @@ class Screens {
     ScreenId.posts: PostsScreen(),
     ScreenId.workspace: Text('Workspace Screen'),
     ScreenId.media: Text('Media Screen'),
-    ScreenId.profile: Text(version()),
+    ScreenId.profile: Text('Git version: ${Git.version()}'),
   };
 
   Widget? get(ScreenId id) {

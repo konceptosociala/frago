@@ -1,5 +1,6 @@
 import 'package:simplegit/simplegit.dart';
 
 void main() {
-  print(version());
+  var version = Git.version();
+  print('Git version: $version');
 }

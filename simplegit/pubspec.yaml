@@ -7,6 +7,7 @@ environment:
 
 dependencies:
   ffi: ^2.1.0
+  option_result: ^3.2.1
 
 dev_dependencies:
   ffigen: ^11.0.0
@@ -14,7 +15,7 @@ dev_dependencies:
   test: ^1.24.0
 
 ffigen:
-  name: SimpleGitSys
+  name: GitSys
   description: Bindings for libgit2
   output: lib/src/bindings/simplegit.dart
   headers:

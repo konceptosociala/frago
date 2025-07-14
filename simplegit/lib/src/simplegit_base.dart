@@ -1,40 +1,59 @@
 import 'dart:ffi';
-import 'dart:io';
-
 import 'package:ffi/ffi.dart';
-import 'package:simplegit/src/bindings/simplegit.dart';
+import 'package:option_result/option_result.dart';
+import 'package:simplegit/src/error.dart';
+import 'package:simplegit/src/push.dart';
+import 'package:simplegit/src/repo.dart';
+import 'package:simplegit/src/sys.dart';
+import 'package:simplegit/src/utils.dart';
 
-DynamicLibrary _loadLibGit2() {
-  if (Platform.isLinux) {
-    return DynamicLibrary.open('simplegit/build-linux/install/lib/libgit2.so');
-  } else if (Platform.isAndroid) {
-    return DynamicLibrary.open('libgit2.so'); // bundled in APK/jniLibs
-  } else {
-    throw UnsupportedError('Platform not supported');
+class Git {
+  /// Singleton instance of [Git].
+  static bool _initialized = false;
+
+  static void init() {
+    if (!_initialized) {
+      gitSys.git_libgit2_init();
+      _initialized = true;
+    }
   }
-}
 
-String version() {
-  final lib = SimpleGitSys(_loadLibGit2());
+  static void shutdown() {
+    if (_initialized) {
+      gitSys.git_libgit2_shutdown();
+      _initialized = false;
+    }
+  }
 
-  // Initialize libgit2
-  lib.git_libgit2_init();
+  static Version version() {
+    if (!_initialized) {
+      throw UninitializedGitError();
+    }
 
-  // Get libgit2 version numbers
-  final major = calloc<Int>();
-  final minor = calloc<Int>();
-  final rev = calloc<Int>();
+    final major = calloc<Int>();
+    final minor = calloc<Int>();
+    final rev = calloc<Int>();
 
-  lib.git_libgit2_version(major, minor, rev);
+    gitSys.git_libgit2_version(major, minor, rev);
 
-  String res = 'libgit2 version: ${major.value}.${minor.value}.${rev.value}';
+    var res = Version(major.value, minor.value, rev.value);
 
-  // Cleanup
-  lib.git_libgit2_shutdown();
+    calloc.free(major);
+    calloc.free(minor);
+    calloc.free(rev);
 
-  calloc.free(major);
-  calloc.free(minor);
-  calloc.free(rev);
+    return res;
+  }
 
-  return res;
+  static GitPush push() {
+    if (!_initialized) {
+      throw UninitializedGitError();
+    }
+
+    return GitPush();
+  }
+
+  static Result<List<RemoteRepository>, GitError> repos(LoggedUser user) {
+    throw 'Not implemented';
+  }
 }
