@@ -4,9 +4,12 @@ import 'package:frago/widgets/nothing_appbar.dart';
 import 'package:frago/widgets/screens/screens.dart';
 import 'package:frago/widgets/sized_fab.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:simplegit/simplegit.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final LoggedUser user;
+
+  const HomePage(this.user, {super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

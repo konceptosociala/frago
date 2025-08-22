@@ -44,6 +44,9 @@ class _PostScreenState extends State<PostsScreen> {
 
     // TODO: retrieve posts
     posts = tempPosts;
+    for (var post in posts) {
+      post.selected = false;
+    }
   }
 
   @override

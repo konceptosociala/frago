@@ -1,5 +1,4 @@
-import 'package:option_result/result.dart';
-import 'package:simplegit/src/error.dart';
+import 'dart:convert';
 
 class Version {
   final int major;
@@ -16,18 +15,23 @@ class Version {
 
 class LoggedUser {
   final String name;
-  final String email;
   final String token;
 
-  LoggedUser._(this.name, this.email, this.token);
+  LoggedUser({required this.name, required this.token});
 
-  static Result<LoggedUser, GitError> auth() {
-    return Err(
-      GitError(
-        kind: GitErrorKind.githubAuth,
-        msg: ''
-      )
+  factory LoggedUser.fromJson(String json) {
+    final data = jsonDecode(json);
+    return LoggedUser(
+      name: data['name'],
+      token: data['token'],
     );
+  }
+
+  String toJson() {
+    return jsonEncode({
+      'name': name,
+      'token': token,
+    });
   }
 }
 

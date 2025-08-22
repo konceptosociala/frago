@@ -2,7 +2,6 @@ enum GitErrorKind {
   repoNotSet,
   remoteNotSet,
   openRepo,
-  githubAuth,
   invalidRemote,
   connectionError,
   pushError;
@@ -16,8 +15,6 @@ enum GitErrorKind {
         return 'Remote is not set';
       case GitErrorKind.openRepo:
         return 'Cannot open repository';
-      case GitErrorKind.githubAuth:
-        return 'Cannot login to GitHub';
       case GitErrorKind.invalidRemote:
         return 'Invalid remote';
       case GitErrorKind.connectionError:
