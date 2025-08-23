@@ -94,16 +94,16 @@ enum LoginErrorKind {
   }
 }
 
-void showError(BuildContext context, LoginError error) {
+void showError(NavigatorState nav, LoginError error) {
   showDialog(
-    context: context,
+    context: nav.context,
     builder:
         (context) => AlertDialog(
           title: Text('Error'),
           content: Text(error.toString()),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => nav.pop(),
               child: Text('OK'),
             ),
           ],

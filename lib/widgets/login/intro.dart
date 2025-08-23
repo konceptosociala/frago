@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:frago/widgets/login/confirm.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
 import 'package:option_result/option_result.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplegit/simplegit.dart';
 
 class Intro extends StatefulWidget {
@@ -21,6 +21,8 @@ class Intro extends StatefulWidget {
 class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
+    final nav = Navigator.of(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -33,17 +35,18 @@ class _IntroState extends State<Intro> {
             ),
             LoginHeading(label: 'Your Frago Blog'),
             SizedBox(height: 20),
-            LoginButton(label: "Login to GitHub", onPressed: _startLogin),
+            LoginButton(
+              label: "Login to GitHub",
+              onPressed: () => _startLogin(nav),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _startLogin() async {
+  void _startLogin(NavigatorState nav) async {
     final result = await _requestDeviceCode(widget._clientId);
-
-    if (!context.mounted) return;
 
     switch (result) {
       case Ok(value: final data):
@@ -51,9 +54,7 @@ class _IntroState extends State<Intro> {
         final userCode = data['user_code'];
         final verificationUri = data['verification_uri'];
 
-        if (!context.mounted) return;
-
-        final user = await Navigator.of(context).push<LoggedUser>(
+        final user = await nav.push<LoggedUser>(
           MaterialPageRoute(
             builder: (_) => ConfirmLogin(
               deviceCode: deviceCode,
@@ -64,8 +65,8 @@ class _IntroState extends State<Intro> {
         );
 
         if (user != null) {
-          final storage = FlutterSecureStorage();
-          await storage.write(key: 'frago_logged_user', value: user.toJson());
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('frago_logged_user', user.toJson());
           if (widget.onLogin != null) {
             widget.onLogin!(user);
           }
@@ -74,7 +75,7 @@ class _IntroState extends State<Intro> {
         break;
 
       case Err(value: final error):
-        showError(context, error);
+        showError(nav, error);
         break;
     }
   }

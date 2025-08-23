@@ -6,12 +6,12 @@ import 'package:frago/widgets/posts_scrollview.dart';
 
 final tempPosts = [
   Post(
-    'Linia algebro por Despero (parto 2)',
-    'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
+    'Making a Static Blog in Elm: Why and How?',
+    'Warning: this post is more like a cheat sheet than a full tutorial, so you should acquaint yourself with some basics of functional programming, or at least read the official Elm guide first.',
   ),
   Post(
-    'Anguloj inter vektoroj',
-    'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
+    'Loading 3D texture in Bevy',
+    'To load an image into our app Bevy provides us with a custom Image type. However, AssetServer in Bevy (as of version 0.15) only supports 2D image loading for now, so we need to perhaps implement a custom 3D image asset loader. For our tutorial we will use png and jpeg raster image types, but you can also try to implement importing of raw MagicaVoxel data, e.g. using dot_vox crate.',
   ),
   Post(
     'Anguloj inter vektoroj',

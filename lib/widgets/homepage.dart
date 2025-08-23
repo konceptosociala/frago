@@ -8,8 +8,13 @@ import 'package:simplegit/simplegit.dart';
 
 class HomePage extends StatefulWidget {
   final LoggedUser user;
+  final VoidCallback onLogout;
 
-  const HomePage(this.user, {super.key});
+  const HomePage({
+    super.key,
+    required this.user,
+    required this.onLogout,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,7 +22,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScreenId currentScreen = ScreenId.posts;
-  Screens screens = Screens();
+  late Screens screens;
+
+  @override
+  void initState() {
+    super.initState();
+    screens = Screens(widget.user, widget.onLogout);
+  }
 
   @override
   Widget build(BuildContext context) {
