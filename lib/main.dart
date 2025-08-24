@@ -32,7 +32,7 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   LoggedUser? loggedUser;
   bool checkedLogin = false;
-  bool noInternet = false;
+  bool logged = false;
 
   @override
   void initState() {
@@ -48,26 +48,18 @@ class _MainAppState extends State<MainApp> {
       theme: FragoThemeData.dark(),
       home: Builder(
         builder: (context) {
-          if (noInternet) {
-            return NoInternetPage(() {
-              setState(() {
-                noInternet = false;
-              });
-              _checkLoginStatus();
-            });
-          }
-
           if (!checkedLogin) {
             return const Scaffold(
               body: Center(child: CircularProgressIndicator()),
             );
           }
 
-          if (loggedUser == null) {
+          if (!logged) {
             return LoginPage(
               onLogin: (user) {
                 setState(() {
                   loggedUser = user;
+                  logged = true;
                 });
               },
             );
@@ -76,12 +68,13 @@ class _MainAppState extends State<MainApp> {
           return HomePage(
             user: loggedUser!,
             onLogout: () async {
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.remove('frago_logged_user');
-
               setState(() {
                 loggedUser = null;
+                logged = false;
               });
+
+              final prefs = await SharedPreferences.getInstance();
+              await prefs.remove('frago_logged_user');
             },
           );
         },
@@ -95,6 +88,7 @@ class _MainAppState extends State<MainApp> {
 
     if (userJson == null) {
       setState(() {
+        logged = false;
         checkedLogin = true;
       });
       return;
@@ -102,24 +96,33 @@ class _MainAppState extends State<MainApp> {
 
     final user = LoggedUser.fromJson(userJson);
 
-    if (await _isTokenValid(user.token) case Ok()) {
-      setState(() {
-        loggedUser = user;
-        checkedLogin = true;
-      });
-    } else if (await _isTokenValid(user.token) case Err(value: final error)) {
-      if (error.kind == LoginErrorKind.cannotResolve) {
+    final result = await _isTokenValid(user.token);
+    switch (result) {
+      case Ok():
         setState(() {
-          noInternet = true;
+          loggedUser = user;
+          logged = true;
+          checkedLogin = true;
         });
-      }
-    } else {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('frago_logged_user');
+        break;
 
-      setState(() {
-        checkedLogin = true;
-      });
+      case Err(value: final error):
+        if (error.kind == LoginErrorKind.cannotResolve) {
+          setState(() {
+            loggedUser = user;
+            logged = true;
+            checkedLogin = true;
+          });
+        } else {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.remove('frago_logged_user');
+
+          setState(() {
+            logged = false;
+            checkedLogin = true;
+          });
+        }
+        break;
     }
   }
 
