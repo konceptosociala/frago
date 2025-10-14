@@ -33,7 +33,8 @@ class ConfirmLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please confirm your\nlogin on GitHub:',
+              'Please confirm your\n'
+              'login on GitHub:',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24, color: NothingColors.paleGrey),
             ),
