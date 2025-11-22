@@ -29,7 +29,8 @@ class PostSelectionMenu extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(width: 16),
+                gapH(16),
+                
                 ElevatedButton.icon(
                   label: Text(
                     'Delete',
@@ -48,7 +49,9 @@ class PostSelectionMenu extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                   ),
                 ),
-                SizedBox(width: 16),
+                
+                gapH(16),
+
                 ElevatedButton.icon(
                   icon: Icon(
                     PhosphorIcons.selectionAll(),

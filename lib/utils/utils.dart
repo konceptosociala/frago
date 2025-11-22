@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 
 class NothingColors {
   NothingColors._();
@@ -12,11 +13,17 @@ class NothingColors {
   static const black = Color(0xFF111112);
 }
 
-class Utils {
-  Utils._();
+const debugPhoneSize = Size(460, 870);
 
-  static const debugPhoneSize = Size(460, 870);
+bool isDesktop() 
+  => Platform.isLinux 
+  || Platform.isWindows 
+  || Platform.isMacOS;
 
-  static bool isDesktop() =>
-      Platform.isLinux || Platform.isWindows || Platform.isMacOS;
-}
+Widget gapH(double size) => SizedBox(width: size);
+
+Widget gapV(double size) => SizedBox(height: size);
+
+Option<Uri> parseUri(String url) => Option.tryCatch(() => Uri.parse(url));
+
+void ok() {}

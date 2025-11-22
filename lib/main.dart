@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart' show Left, Right, TaskEither;
 import 'package:frago/utils/theme_data.dart';
 import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/homepage.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
-import 'package:option_result/option_result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplegit/simplegit.dart';
 import 'package:window_size/window_size.dart';
@@ -13,10 +13,10 @@ void main() {
   Git.init();
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Utils.isDesktop()) {
+  if (isDesktop()) {
     setWindowTitle('Frago Debug');
-    setWindowMinSize(Utils.debugPhoneSize);
-    setWindowMaxSize(Utils.debugPhoneSize);
+    setWindowMinSize(debugPhoneSize);
+    setWindowMaxSize(debugPhoneSize);
   }
 
   runApp(const MainApp());
@@ -45,7 +45,7 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Frago',
-      theme: FragoThemeData.dark(),
+      theme: darkTheme(),
       home: Builder(
         builder: (context) {
           if (!checkedLogin) {
@@ -96,9 +96,9 @@ class _MainAppState extends State<MainApp> {
 
     final user = LoggedUser.fromJson(userJson);
 
-    final result = await _isTokenValid(user.token);
+    final result = await verifyToken(user.token).run();
     switch (result) {
-      case Ok():
+      case Right():
         setState(() {
           loggedUser = user;
           logged = true;
@@ -106,7 +106,7 @@ class _MainAppState extends State<MainApp> {
         });
         break;
 
-      case Err(value: final error):
+      case Left(value: final error):
         if (error.kind == LoginErrorKind.cannotResolve) {
           setState(() {
             loggedUser = user;
@@ -126,32 +126,35 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
-  Future<Result<(), LoginError>> _isTokenValid(String token) async {
-    try {
-      final response = await http.get(
-        Uri.parse('https://api.github.com/user'),
-        headers: {
-          'Authorization': 'token $token',
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      );
+  TaskEither<LoginError, void> verifyToken(String token) => TaskEither.Do(
+    ($) async {
+      final response = await $(TaskEither.tryCatch(
+        () async => await http.get(
+          Uri.parse('https://api.github.com/user'),
+          headers: {
+            'Authorization': 'token $token',
+            'Accept': 'application/vnd.github.v3+json',
+          },
+        ),
+        (_, __) => LoginError(kind: LoginErrorKind.cannotResolve),
+      ));
 
-      if (response.statusCode == 200) {
-        return Ok(());
-      } else if (response.statusCode == 401) {
-        return Err(LoginError(kind: LoginErrorKind.expiredToken));
-      } else {
-        return Err(
+      return switch (response.statusCode) {
+        200 => ok(),
+
+        401 => $(TaskEither.left(
+          LoginError(kind: LoginErrorKind.expiredToken)
+        )),
+
+        _ => $(TaskEither.left(
           LoginError(
             kind: LoginErrorKind.githubError,
             message: 'Status code: ${response.statusCode}',
           ),
-        );
-      }
-    } catch (_) {
-      return Err(LoginError(kind: LoginErrorKind.cannotResolve));
+        )),
+      };
     }
-  }
+  );
 }
 
 class NoInternetPage extends StatelessWidget {
@@ -167,7 +170,9 @@ class NoInternetPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const LoginHeading(label: 'No internet connection'),
-            const SizedBox(height: 16),
+            
+            gapV(16),
+
             LoginButton(onPressed: onRetry, label: 'Retry'),
           ],
         ),

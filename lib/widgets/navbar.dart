@@ -24,7 +24,7 @@ class NavBar extends StatelessWidget {
       child: SizedBox(
         height: kBottomNavigationBarHeight,
         child: Theme(
-          data: FragoThemeData.dark(interactive: false),
+          data: darkTheme(interactive: false),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: currentScreen.toIndex(),

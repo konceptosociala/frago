@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/login/intro.dart';
 import 'package:simplegit/src/utils.dart' show LoggedUser;
-import 'package:option_result/option_result.dart';
 
 class LoginPage extends StatelessWidget {
   final void Function(LoggedUser user)? onLogin;
@@ -73,13 +72,19 @@ enum LoginErrorKind {
   expiredToken,
   cannotResolve,
   requestDevice,
-  openUrl;
+  openUrl,
+  jsonDecode,
+  invalidUrl;
 
   @override
   String toString() {
     switch (this) {
+      case LoginErrorKind.jsonDecode:
+        return 'Cannot decode JSON data';
       case LoginErrorKind.fetchGithubUser:
         return 'Failed to fetch GitHub user';
+      case LoginErrorKind.invalidUrl:
+        return 'Invalid URL';
       case LoginErrorKind.githubError:
         return 'GitHub API error';
       case LoginErrorKind.expiredToken:
@@ -101,17 +106,7 @@ void showError(NavigatorState nav, LoginError error) {
         (context) => AlertDialog(
           title: Text('Error'),
           content: Text(error.toString()),
-          actions: [
-            TextButton(
-              onPressed: () => nav.pop(),
-              child: Text('OK'),
-            ),
-          ],
+          actions: [TextButton(onPressed: () => nav.pop(), child: Text('OK'))],
         ),
   );
 }
-
-typedef RequestDeviceResult = Result<Map<String, dynamic>, LoginError>;
-typedef OpenVerificationResult = Result<(), LoginError>;
-typedef PollTokenResult = Result<String, LoginError>;
-typedef GithubUserResult = Result<String, LoginError>;

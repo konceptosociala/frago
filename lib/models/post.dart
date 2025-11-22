@@ -1,29 +1,21 @@
-class Post {
-  String _title;
-  String _description;
-  String _summary;
-  bool selected = false;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Post(this._title, this._description) : _summary = _makeSummary(_description);
+part 'post.freezed.dart';
 
-  String get title => _title;
-  String get description => _description;
-  String get summary => _summary;
+@freezed
+abstract class Post with _$Post {
+  const Post._();
 
-  set title(String newTitle) {
-    _title = newTitle;
-  }
+  const factory Post({
+    required String title, 
+    required String description,
+    @Default(false) bool selected,
+  }) = _Post;
 
-  set description(String newDescription) {
-    _description = newDescription;
-    _summary = _makeSummary(newDescription);
-  }
-
-  static String _makeSummary(String description) {
-    return description.length > 100
-        ? '${description.substring(0, 100)}...'
-        : description;
-  }
+  String get summary => 
+    description.length > 100
+      ? '${description.substring(0, 100)}...'
+      : description;
 }
 
 enum PostSorting {

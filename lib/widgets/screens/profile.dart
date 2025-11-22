@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/bg_body.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:simplegit/simplegit.dart';
@@ -41,7 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               'Token: ${_shortenToken(widget.user.token)}',
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            SizedBox(height: 20),
+            
+            gapV(20),
+            
             LoginButton(label: 'Log Out', onPressed: widget.onLogout)
           ],
         ),

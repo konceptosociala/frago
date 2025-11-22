@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fpdart/fpdart.dart' show Left, Right, TaskEither, Either;
+import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/login/confirm.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
-import 'package:option_result/option_result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplegit/simplegit.dart';
 
@@ -34,10 +35,12 @@ class _IntroState extends State<Intro> {
               width: 150,
             ),
             LoginHeading(label: 'Your Frago Blog'),
-            SizedBox(height: 20),
+            
+            gapV(20),
+
             LoginButton(
               label: "Login to GitHub",
-              onPressed: () => _startLogin(nav),
+              onPressed: () => startLogin(nav),
             ),
           ],
         ),
@@ -45,11 +48,11 @@ class _IntroState extends State<Intro> {
     );
   }
 
-  void _startLogin(NavigatorState nav) async {
-    final result = await _requestDeviceCode(widget._clientId);
+  void startLogin(NavigatorState nav) async {
+    final result = await requestDeviceCode(widget._clientId).run();
 
     switch (result) {
-      case Ok(value: final data):
+      case Right(value: final data):
         final deviceCode = data['device_code'];
         final userCode = data['user_code'];
         final verificationUri = data['verification_uri'];
@@ -74,27 +77,32 @@ class _IntroState extends State<Intro> {
 
         break;
 
-      case Err(value: final error):
+      case Left(value: final error):
         showError(nav, error);
         break;
     }
   }
 
-  Future<RequestDeviceResult> _requestDeviceCode(String clientId) async {
-    try {
-      final response = await http.post(
+  TaskEither<LoginError, Map<String, dynamic>> requestDeviceCode(
+    String clientId
+  ) => TaskEither
+    .tryCatch(
+      () async => await http.post(
         Uri.parse('https://github.com/login/device/code'),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'client_id=$clientId&scope=repo',
-      );
-
-      if (response.statusCode == 200) {
-        return Ok(Uri.splitQueryString(response.body));
-      } else {
-        return Err(LoginError(kind: LoginErrorKind.requestDevice));
-      }
-    } catch (_) {
-      return Err(LoginError(kind: LoginErrorKind.cannotResolve));
-    }
-  }
+      ),
+      (_, __) => LoginError(kind: LoginErrorKind.cannotResolve)
+    )
+    .filterOrElse(
+      (r) => r.statusCode == 200, 
+      (_) => LoginError(kind: LoginErrorKind.cannotResolve)
+    )
+    .flatMap((r) => Either
+      .tryCatch(
+        () => Uri.splitQueryString(r.body),
+        (_, __) => LoginError(kind: LoginErrorKind.githubError)
+      )
+      .toTaskEither()
+    );
 }

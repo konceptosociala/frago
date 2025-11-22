@@ -14,15 +14,18 @@ dependencies:
   flutter_svg: ^2.1.0
   phosphor_flutter: ^2.1.0
   window_size: ^0.1.0
-  option_result: ^3.2.1
   http: ^1.4.0
   url_launcher: ^6.3.2
   shared_preferences: ^2.5.3
+  freezed_annotation: ^3.1.0
+  fpdart: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.5.4
+  freezed: ^3.1.0
 
 flutter:
   uses-material-design: true

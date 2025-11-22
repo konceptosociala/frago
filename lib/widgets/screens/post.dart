@@ -6,20 +6,20 @@ import 'package:frago/widgets/posts_scrollview.dart';
 
 final tempPosts = [
   Post(
-    'Making a Static Blog in Elm: Why and How?',
-    'Warning: this post is more like a cheat sheet than a full tutorial, so you should acquaint yourself with some basics of functional programming, or at least read the official Elm guide first.',
+    title: 'Making a Static Blog in Elm: Why and How?',
+    description: 'Warning: this post is more like a cheat sheet than a full tutorial, so you should acquaint yourself with some basics of functional programming, or at least read the official Elm guide first.',
   ),
   Post(
-    'Loading 3D texture in Bevy',
-    'To load an image into our app Bevy provides us with a custom Image type. However, AssetServer in Bevy (as of version 0.15) only supports 2D image loading for now, so we need to perhaps implement a custom 3D image asset loader. For our tutorial we will use png and jpeg raster image types, but you can also try to implement importing of raw MagicaVoxel data, e.g. using dot_vox crate.',
+    title: 'Loading 3D texture in Bevy',
+    description: 'To load an image into our app Bevy provides us with a custom Image type. However, AssetServer in Bevy (as of version 0.15) only supports 2D image loading for now, so we need to perhaps implement a custom 3D image asset loader. For our tutorial we will use png and jpeg raster image types, but you can also try to implement importing of raw MagicaVoxel data, e.g. using dot_vox crate.',
   ),
   Post(
-    'Anguloj inter vektoroj',
-    'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
+    title: 'Anguloj inter vektoroj',
+    description: 'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
   ),
   Post(
-    'Anguloj inter vektoroj',
-    'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
+    title: 'Anguloj inter vektoroj',
+    description: 'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
   ),
 ];
 
@@ -45,7 +45,7 @@ class _PostScreenState extends State<PostsScreen> {
     // TODO: retrieve posts
     posts = tempPosts;
     for (var post in posts) {
-      post.selected = false;
+      post = post.copyWith(selected: false);
     }
   }
 
@@ -78,14 +78,14 @@ class _PostScreenState extends State<PostsScreen> {
                 onTap: (post) {
                   if (postSelectionMode) {
                     setState(() {
-                      post.selected = !post.selected;
+                      post = post.copyWith(selected: !post.selected);
                     });
                   }
                 },
                 onLongPress: (post) {
                   setState(() {
                     postSelectionMode = true;
-                    post.selected = !post.selected;
+                    post = post.copyWith(selected: !post.selected);
                   });
                 },
               ),
@@ -101,7 +101,7 @@ class _PostScreenState extends State<PostsScreen> {
       postSelectionMode = false;
 
       for (var post in posts) {
-        post.selected = false;
+        post = post.copyWith(selected: false);
       }
     });
   }
@@ -110,11 +110,11 @@ class _PostScreenState extends State<PostsScreen> {
     setState(() {
       if (posts.any((p) => !p.selected)) {
         for (var post in posts) {
-          post.selected = true;
+          post = post.copyWith(selected: true);
         }
       } else {
         for (var post in posts) {
-          post.selected = false;
+          post = post.copyWith(selected: false);
         }
       }
     });
