@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/login/intro.dart';
-import 'package:simplegit/src/utils.dart' show LoggedUser;
+import 'package:simplegit/simplegit.dart' show LoggedUser;
 
 class LoginPage extends StatelessWidget {
-  final void Function(LoggedUser user)? onLogin;
+  final Option<void Function(LoggedUser user)> onLogin;
 
-  const LoginPage({super.key, this.onLogin});
+  const LoginPage({
+    super.key, 
+    this.onLogin = const None()
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +106,10 @@ enum LoginErrorKind {
 void showError(NavigatorState nav, LoginError error) {
   showDialog(
     context: nav.context,
-    builder:
-        (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text(error.toString()),
-          actions: [TextButton(onPressed: () => nav.pop(), child: Text('OK'))],
-        ),
+    builder: (context) => AlertDialog(
+      title: Text('Error'),
+      content: Text(error.toString()),
+      actions: [TextButton(onPressed: () => nav.pop(), child: Text('OK'))],
+    ),
   );
 }

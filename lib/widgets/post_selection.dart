@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frago/utils/utils.dart';
+import 'package:frago/widgets/gaps.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class PostSelectionMenu extends StatelessWidget {
@@ -29,7 +30,7 @@ class PostSelectionMenu extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                gapH(16),
+                GapH(16),
                 
                 ElevatedButton.icon(
                   label: Text(
@@ -50,7 +51,7 @@ class PostSelectionMenu extends StatelessWidget {
                   ),
                 ),
                 
-                gapH(16),
+                GapH(16),
 
                 ElevatedButton.icon(
                   icon: Icon(

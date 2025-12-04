@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frago/models/post.dart';
-import 'package:frago/utils/utils.dart';
+import 'package:frago/widgets/gaps.dart';
 import 'package:frago/widgets/post.dart';
 
 class PostsScrollview extends StatelessWidget {
@@ -35,7 +35,7 @@ class PostsScrollview extends StatelessWidget {
                 ),
 
                 if (i != posts.length - 1) 
-                  gapV(16),
+                  GapV(16),
               ],
               Padding(padding: EdgeInsets.only(bottom: 120.0)),
             ],

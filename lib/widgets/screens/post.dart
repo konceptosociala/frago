@@ -44,9 +44,10 @@ class _PostScreenState extends State<PostsScreen> {
 
     // TODO: retrieve posts
     posts = tempPosts;
-    for (var post in posts) {
-      post = post.copyWith(selected: false);
-    }
+
+    posts = posts
+      .map((p) => p.copyWith(selected: false))
+      .toList();
   }
 
   @override

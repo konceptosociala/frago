@@ -20,10 +20,6 @@ bool isDesktop()
   || Platform.isWindows 
   || Platform.isMacOS;
 
-Widget gapH(double size) => SizedBox(width: size);
-
-Widget gapV(double size) => SizedBox(height: size);
-
 Option<Uri> parseUri(String url) => Option.tryCatch(() => Uri.parse(url));
 
 void ok() {}

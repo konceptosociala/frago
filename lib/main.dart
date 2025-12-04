@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart' show Left, Right, TaskEither;
+import 'package:fpdart/fpdart.dart' show Left, Right, Some, TaskEither;
 import 'package:frago/utils/theme_data.dart';
 import 'package:frago/utils/utils.dart';
+import 'package:frago/widgets/gaps.dart';
 import 'package:frago/widgets/homepage.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
@@ -56,13 +57,13 @@ class _MainAppState extends State<MainApp> {
 
           if (!logged) {
             return LoginPage(
-              onLogin: (user) {
+              onLogin: Some((user) {
                 setState(() {
                   loggedUser = user;
                   logged = true;
                 });
               },
-            );
+            ));
           }
 
           return HomePage(
@@ -171,7 +172,7 @@ class NoInternetPage extends StatelessWidget {
           children: [
             const LoginHeading(label: 'No internet connection'),
             
-            gapV(16),
+            GapV(16),
 
             LoginButton(onPressed: onRetry, label: 'Retry'),
           ],

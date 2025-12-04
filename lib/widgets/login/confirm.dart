@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:frago/models/access_token_info.dart';
+import 'package:frago/models/verification_info.dart';
 import 'package:frago/utils/utils.dart';
+import 'package:frago/widgets/gaps.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -12,72 +13,33 @@ import 'package:simplegit/simplegit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ConfirmLogin extends StatelessWidget {
-  final String deviceCode;
-  final String userCode;
-  final String verificationUri;
+  final VertificationInfo info;
 
   const ConfirmLogin({
     super.key,
-    required this.userCode,
-    required this.verificationUri,
-    required this.deviceCode,
+    required this.info,
   });
 
   @override
   Widget build(BuildContext context) {
-    final nav = Navigator.of(context);
-
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Please confirm your\n'
-              'login on GitHub:',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, color: NothingColors.paleGrey),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LoginHeading(label: userCode),
+            const ConfirmTitle(),
+            ConfirmCodeRow(info.userCode),
 
-                gapH(8),
+            const GapV(20),
 
-                IconButton(
-                  icon: Icon(PhosphorIcons.copy()),
-                  color: NothingColors.paleGrey,
-                  tooltip: 'Copy code',
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: userCode));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Code copied to clipboard')),
-                    );
-                  },
-                ),
-              ],
+            ConfirmButtom(
+              deviceCode: info.deviceCode,
+              verificationUri: info.verificationUri,
             ),
 
-            gapV(20),
+            const GapV(20),
 
-            LoginButton(
-              label: 'Confirm', 
-              onPressed: () => confirmLogin(
-                nav,
-                verificationUri,
-                deviceCode,
-              )
-            ),
-
-            gapV(20),
-
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                nav.pop();
-              },
-            ),
+            CancelButton(),
           ],
         ),
       ),
@@ -85,50 +47,115 @@ class ConfirmLogin extends StatelessWidget {
   }
 }
 
-void confirmLogin(
-  NavigatorState nav, 
+class CancelButton extends StatelessWidget {
+  const CancelButton({super.key});
+
+  @override
+  Widget build(BuildContext context) => TextButton(
+    child: Text('Cancel'),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+}
+
+class ConfirmButtom extends StatelessWidget {
+  final String verificationUri;
+  final String deviceCode;
+
+  const ConfirmButtom({
+    super.key, 
+    required this.verificationUri,
+    required this.deviceCode,
+  });
+
+  @override
+  Widget build(BuildContext context) => LoginButton(
+    label: 'Confirm',
+    onPressed: () => proceedConfirm(context),
+  );
+
+  void proceedConfirm(BuildContext context) async {
+    final result = 
+      await confirmLogin(verificationUri, deviceCode).run();
+
+    result.match(
+      (error) {
+        if (!context.mounted) {
+          return;
+        }
+
+        final navigator = Navigator.of(context);
+
+        navigator.pop();
+        showError(navigator, error);
+      },
+      (user) {
+        if (!context.mounted) {
+          return;
+        }
+
+        Navigator.of(context).pop(user);
+      },
+    );
+  }
+}
+
+class ConfirmTitle extends StatelessWidget {
+  const ConfirmTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) => const Text(
+    'Please confirm your\n'
+    'login on GitHub:',
+
+    textAlign: TextAlign.center,
+    style: TextStyle(fontSize: 24, color: NothingColors.paleGrey),
+  );
+}
+
+class ConfirmCodeRow extends StatelessWidget {
+  final String userCode;
+
+  const ConfirmCodeRow(this.userCode, {super.key});
+
+  @override
+  Widget build(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      LoginHeading(label: userCode),
+      GapH(8),
+      IconButton(
+        icon: Icon(PhosphorIcons.copy()),
+        color: NothingColors.paleGrey,
+        tooltip: 'Copy code',
+        onPressed: () {
+          Clipboard.setData(ClipboardData(text: userCode));
+          ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Code copied to clipboard')));
+        },
+      ),
+    ],
+  );
+}
+
+TaskEither<LoginError, LoggedUser> confirmLogin(
   String verificationUri,
   String deviceCode,
-) async {
-    final openResult = await openConfirmPage(verificationUri).run();
+) => TaskEither.Do(
+  ($) async {
+    await $(openConfirmPage(verificationUri));
 
-    if (openResult case Left(value: final error)) {
-      nav.pop();
-      showError(nav, error);
-      return;
-    }
-
-    final tokenResult = await pollForToken(
+    final token = await $(pollForToken(
       clientId: 'Ov23liexZonCeMBDUUKX',
       deviceCode: deviceCode,
-    ).run();
+    ));
 
-    if (tokenResult case Left(value: final error)) {
-      nav.pop();
-      showError(nav, error);
-      return;
-    }
+    final login = await $(fetchGitHubUser(token));
 
-    final token = tokenResult.getOrElse((_) => throw 'Unreachable');
-
-    log('Obtained token: $token');
-
-    final userResult = await fetchGitHubUser(token).run();
-
-    if (userResult case Left(value: final error)) {
-      nav.pop();
-      showError(nav, error);
-      return;
-    }
-
-    final login = userResult.getOrElse((_) => throw 'Unreachable');
-
-    log('Obtained user: $login');
-
-    final user = LoggedUser(name: login, token: token);
-
-    nav.pop(user);
+    return LoggedUser(name: login, token: token);
   }
+);
 
 TaskEither<LoginError, void> openConfirmPage(String url) => TaskEither.Do(
   ($) async {
@@ -182,42 +209,42 @@ TaskEither<LoginError, String> pollForToken({
   ($) async {
     await Future.delayed(Duration(seconds: interval));
 
-    final data = await $(accessToken(
+    final accessTokenInfo = await $(accessToken(
       clientId: clientId, 
       deviceCode: deviceCode
     ));
 
-    if (data.containsKey('access_token')) {
-      return data['access_token']!;
-    } else {
-      return switch (data['error']) {
-        'authorization_pending' => $(pollForToken(
+    return switch (accessTokenInfo) {
+      Token(token: final token) => token,
+
+      Error(err: final err) => switch (err) {
+        AuthPending() => $(pollForToken(
           clientId: clientId,
           deviceCode: deviceCode
         )),
 
-        'slow_down' => $(pollForToken(
+        SlowDown(interval: final interval) => $(pollForToken(
           clientId: clientId,
           deviceCode: deviceCode,
-          interval: int.parse(data['interval']!),
+          interval: interval,
         )),
 
-        'expired_token' => $(TaskEither.left(
+        ExpiredToken() => $(TaskEither.left(
           LoginError(kind: LoginErrorKind.expiredToken)
         )),
 
-        _ => $(TaskEither.left(
+        InvalidError(err: final err) => $(TaskEither.left(
           LoginError(
             kind: LoginErrorKind.githubError, 
-            message: data['error']
+            message: err,
           )
-        )),
-      };
-    }
+        ))
+      }
+    };
   }
 );
 
-TaskEither<LoginError, Map<String, dynamic>> accessToken({
+TaskEither<LoginError, AccessTokenInfo> accessToken({
   required String clientId,
   required String deviceCode,
 }) => TaskEither
@@ -239,7 +266,34 @@ TaskEither<LoginError, Map<String, dynamic>> accessToken({
       (_, __) => LoginError(kind: LoginErrorKind.githubError)
     )
     .toTaskEither()
-  );
+  )
+  .filterOrElse(
+    (data) => ['access_token', 'error'].any((k) => data.containsKey(k)),
+    (_) => LoginError(kind: LoginErrorKind.fetchGithubUser),
+  )
+  .map((data) {
+    if (data.containsKey('access_token')) {
+      return AccessTokenInfo.token(data['access_token']!);
+    } else {
+      return switch (data['error']) {
+        'authorization_pending' => AccessTokenInfo.error(
+          AccessTokenError.authPending()
+        ),
+
+        'slow_down' => AccessTokenInfo.error(
+          AccessTokenError.slowDown(int.parse(data['interval']!))
+        ),
+
+        'expired_token' => AccessTokenInfo.error(
+          AccessTokenError.expired()
+        ),
+
+        final other => AccessTokenInfo.error(
+          AccessTokenError.invalid(other ?? "invalid error")
+        ),
+      };
+    }
+  });
 
 TaskEither<LoginError, void> launch(Uri uri) => TaskEither.tryCatch(
   () async => launchUrl(uri, mode: LaunchMode.externalApplication),

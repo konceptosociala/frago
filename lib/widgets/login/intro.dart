@@ -1,46 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fpdart/fpdart.dart' show Left, Right, TaskEither, Either;
-import 'package:frago/utils/utils.dart';
+import 'package:fpdart/fpdart.dart' show Either, None, Option, TaskEither;
+import 'package:frago/models/verification_info.dart';
+import 'package:frago/widgets/gaps.dart';
 import 'package:frago/widgets/login/confirm.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplegit/simplegit.dart';
 
-class Intro extends StatefulWidget {
-  final String _clientId = 'Ov23liexZonCeMBDUUKX';
+class Intro extends StatelessWidget {
+  final String clientId = 'Ov23liexZonCeMBDUUKX';
+  final Option<void Function(LoggedUser user)> onLogin;
 
-  final void Function(LoggedUser user)? onLogin;
+  const Intro({
+    super.key, 
+    this.onLogin = const None(),
+  });
 
-  const Intro({super.key, this.onLogin});
-
-  @override
-  State<Intro> createState() => _IntroState();
-}
-
-class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
-    final nav = Navigator.of(context);
-
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              "assets/svg/logo_white.svg",
-              alignment: Alignment.center,
-              width: 150,
-            ),
+            IntroLogo(),
             LoginHeading(label: 'Your Frago Blog'),
             
-            gapV(20),
+            GapV(20),
 
             LoginButton(
               label: "Login to GitHub",
-              onPressed: () => startLogin(nav),
+              onPressed: () => proceedLogin(context),
             ),
           ],
         ),
@@ -48,61 +40,80 @@ class _IntroState extends State<Intro> {
     );
   }
 
-  void startLogin(NavigatorState nav) async {
-    final result = await requestDeviceCode(widget._clientId).run();
+  void proceedLogin(BuildContext context) async {
+    final result = await requestDeviceCode(clientId).run();
 
-    switch (result) {
-      case Right(value: final data):
-        final deviceCode = data['device_code'];
-        final userCode = data['user_code'];
-        final verificationUri = data['verification_uri'];
+    result.match(
+      (error) {
+        if (!context.mounted) {
+          return;
+        }
 
-        final user = await nav.push<LoggedUser>(
+        showError(Navigator.of(context), error);
+      },
+      (info) async {
+        if (!context.mounted) {
+          return;
+        }
+
+        final user = await Navigator.of(context).push<LoggedUser>(
           MaterialPageRoute(
-            builder: (_) => ConfirmLogin(
-              deviceCode: deviceCode,
-              userCode: userCode,
-              verificationUri: verificationUri,
-            ),
+            builder: (_) => ConfirmLogin(info: info),
           ),
         );
 
         if (user != null) {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('frago_logged_user', user.toJson());
-          if (widget.onLogin != null) {
-            widget.onLogin!(user);
-          }
+          
+          onLogin.map((f) => f(user));
         }
-
-        break;
-
-      case Left(value: final error):
-        showError(nav, error);
-        break;
-    }
-  }
-
-  TaskEither<LoginError, Map<String, dynamic>> requestDeviceCode(
-    String clientId
-  ) => TaskEither
-    .tryCatch(
-      () async => await http.post(
-        Uri.parse('https://github.com/login/device/code'),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'client_id=$clientId&scope=repo',
-      ),
-      (_, __) => LoginError(kind: LoginErrorKind.cannotResolve)
-    )
-    .filterOrElse(
-      (r) => r.statusCode == 200, 
-      (_) => LoginError(kind: LoginErrorKind.cannotResolve)
-    )
-    .flatMap((r) => Either
-      .tryCatch(
-        () => Uri.splitQueryString(r.body),
-        (_, __) => LoginError(kind: LoginErrorKind.githubError)
-      )
-      .toTaskEither()
+      }
     );
+  }
 }
+
+class IntroLogo extends StatelessWidget {
+  const IntroLogo({super.key});
+
+  @override
+  Widget build(BuildContext context) => SvgPicture.asset(
+    "assets/svg/logo_white.svg",
+    alignment: Alignment.center,
+    width: 150,
+  );
+}
+
+TaskEither<LoginError, VertificationInfo> requestDeviceCode(
+  String clientId
+) => TaskEither
+  .tryCatch(
+    () async => await http.post(
+      Uri.parse('https://github.com/login/device/code'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: 'client_id=$clientId&scope=repo',
+    ),
+    (_, __) => LoginError(kind: LoginErrorKind.cannotResolve)
+  )
+  .filterOrElse(
+    (r) => r.statusCode == 200, 
+    (_) => LoginError(kind: LoginErrorKind.cannotResolve)
+  )
+  .flatMap((r) => Either
+    .tryCatch(
+      () => Uri.splitQueryString(r.body),
+      (_, __) => LoginError(kind: LoginErrorKind.githubError)
+    )
+    .toTaskEither()
+  )
+  .filterOrElse(
+    (data) => 
+      ['device_code', 'user_code', 'verification_uri']
+        .every((key) => data.containsKey(key)), 
+    (_) => LoginError(kind: LoginErrorKind.githubError)
+  )
+  .map((data) => VertificationInfo(
+    deviceCode: data['device_code']!,
+    userCode: data['user_code']!,
+    verificationUri: data['verification_uri']!,
+  ));
