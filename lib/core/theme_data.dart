@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frago/utils/utils.dart';
+import 'package:frago/core/colors.dart';
 
 ThemeData darkTheme({bool interactive = true}) => ThemeData(
   fontFamily: 'FiraSans',

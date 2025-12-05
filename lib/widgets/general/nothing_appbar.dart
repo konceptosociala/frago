@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frago/widgets/text.dart';
+import 'package:frago/widgets/general/text.dart';
 
 class NothingAppBar extends AppBar {
   final String label;

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frago/core/colors.dart';
 import 'package:frago/models/post.dart';
-import 'package:frago/utils/utils.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-typedef PostModifier = Post Function(Post);
-
 class PostWidget extends StatelessWidget {
-  final Post post;
-  final PostModifier? onTap;
-  final PostModifier? onLongPress;
+  final PostDescr post;
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final bool postSelectionMode;
 
   const PostWidget({
@@ -23,14 +21,14 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
     children: [
       Material(
-        color: post.selected
-          ? NothingColors.darkGrey
+        color: post.selected 
+          ? NothingColors.darkGrey 
           : NothingColors.almostBlack,
         borderRadius: BorderRadius.circular(15),
         elevation: 0,
         child: InkWell(
-          onTap: () => onTap?.call(post),
-          onLongPress: () => onLongPress?.call(post),
+          onTap: onTap,
+          onLongPress: onLongPress,
           borderRadius: BorderRadius.circular(15),
           splashColor: Theme.of(context).splashColor,
           child: Container(
@@ -46,10 +44,7 @@ class PostWidget extends StatelessWidget {
               children: [
                 Text(
                   post.title,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -88,8 +83,8 @@ class PostWidget extends StatelessWidget {
               ),
               child: Icon(
                 post.selected
-                    ? PhosphorIcons.checkCircle()
-                    : Icons.radio_button_unchecked,
+                  ? PhosphorIcons.checkCircle()
+                  : Icons.radio_button_unchecked,
                 color: post.selected ? NothingColors.paleGrey : Colors.grey,
                 size: 32,
               ),

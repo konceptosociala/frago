@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frago/utils/theme_data.dart';
-import 'package:frago/widgets/screens/screens.dart';
+import 'package:frago/core/theme_data.dart';
+import 'package:frago/core/screen_id.dart';
 
 class NavBar extends StatelessWidget {
   final ScreenId currentScreen;

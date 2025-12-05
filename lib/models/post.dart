@@ -3,14 +3,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'post.freezed.dart';
 
 @freezed
-abstract class Post with _$Post {
-  const Post._();
+abstract class PostDescr with _$PostDescr {
+  const PostDescr._();
 
-  const factory Post({
+  const factory PostDescr({
     required String title, 
     required String description,
     @Default(false) bool selected,
-  }) = _Post;
+  }) = _PostDescr;
 
   String get summary => 
     description.length > 100

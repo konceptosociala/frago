@@ -1,34 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:frago/widgets/navbar.dart';
-import 'package:frago/widgets/nothing_appbar.dart';
-import 'package:frago/widgets/screens/screens.dart';
-import 'package:frago/widgets/sized_fab.dart';
+import 'package:frago/models/post.dart';
+import 'package:frago/widgets/general/navbar.dart';
+import 'package:frago/widgets/general/nothing_appbar.dart';
+import 'package:frago/core/screen_id.dart';
+import 'package:frago/widgets/general/sized_fab.dart';
+import 'package:frago/widgets/posts/post_page.dart';
+import 'package:frago/widgets/profile/profile_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:simplegit/simplegit.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   final LoggedUser user;
+  final ScreenId currentScreen;
+  final List<PostDescr> posts;
+  final bool postSelectionMode;
+  final PostSorting postSorting;
+  final void Function(ScreenId) onScreenChange;
   final VoidCallback onLogout;
+  final void Function(int) onTogglePostSelection;
+  final void Function(int) onEnterSelectionMode;
+  final VoidCallback onExitSelectionMode;
+  final VoidCallback onSelectAllPosts;
+  final VoidCallback onDeleteSelectedPosts;
+  final void Function(PostSorting) onChangeSorting;
 
   const HomePage({
     super.key,
     required this.user,
+    required this.currentScreen,
+    required this.posts,
+    required this.postSelectionMode,
+    required this.postSorting,
+    required this.onScreenChange,
     required this.onLogout,
+    required this.onTogglePostSelection,
+    required this.onEnterSelectionMode,
+    required this.onExitSelectionMode,
+    required this.onSelectAllPosts,
+    required this.onDeleteSelectedPosts,
+    required this.onChangeSorting,
   });
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  ScreenId currentScreen = ScreenId.posts;
-  late Screens screens;
-
-  @override
-  void initState() {
-    super.initState();
-    screens = Screens(widget.user, widget.onLogout);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +53,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       extendBody: true,
-      body: screens.get(currentScreen),
+      body: _getScreen(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedFloatingActionButton(
         height: 72,
@@ -54,11 +65,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: NavBar(
         currentScreen: currentScreen,
-        onScreenSelected: (screen) {
-          setState(() {
-            currentScreen = screen;
-          });
-        },
+        onScreenSelected: onScreenChange,
         items: [
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.notebook()),
@@ -80,5 +87,22 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+
+  Widget _getScreen() {
+    return switch (currentScreen) {
+      ScreenId.posts => PostsScreen(
+        posts: posts,
+        postSelectionMode: postSelectionMode,
+        onTogglePostSelection: onTogglePostSelection,
+        onEnterSelectionMode: onEnterSelectionMode,
+        onExitSelectionMode: onExitSelectionMode,
+        onSelectAllPosts: onSelectAllPosts,
+        onDeleteSelectedPosts: onDeleteSelectedPosts,
+      ),
+      ScreenId.workspace => const Text('Workspace Screen'),
+      ScreenId.media => const Text('Media Screen'),
+      ScreenId.profile => ProfileScreen(user: user, onLogout: onLogout),
+    };
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fpdart/fpdart.dart' show Either, None, Option, TaskEither;
 import 'package:frago/models/verification_info.dart';
-import 'package:frago/widgets/gaps.dart';
+import 'package:frago/widgets/general/gaps.dart';
 import 'package:frago/widgets/login/confirm.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:http/http.dart' as http;

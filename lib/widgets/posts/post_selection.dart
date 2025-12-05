@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frago/utils/utils.dart';
-import 'package:frago/widgets/gaps.dart';
+import 'package:frago/core/colors.dart';
+import 'package:frago/widgets/general/gaps.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class PostSelectionMenu extends StatelessWidget {
@@ -10,8 +10,8 @@ class PostSelectionMenu extends StatelessWidget {
   final VoidCallback? onSelectAll;
 
   const PostSelectionMenu({
-    super.key,
     required this.isEnabled,
+    super.key,
     this.onDelete,
     this.onSelectAll,
     this.onExit,

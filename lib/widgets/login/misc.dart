@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:frago/utils/utils.dart';
 import 'package:frago/widgets/login/intro.dart';
+import 'package:frago/core/colors.dart';
 import 'package:simplegit/simplegit.dart' show LoggedUser;
 
 class LoginPage extends StatelessWidget {

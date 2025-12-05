@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:frago/widgets/screens/post.dart';
-import 'package:frago/widgets/screens/profile.dart';
-import 'package:simplegit/simplegit.dart';
-
 enum ScreenId {
   posts,
   workspace,
@@ -31,22 +26,4 @@ enum ScreenId {
     ScreenId.media      => 'Media',
     ScreenId.profile    => 'Profile'
   };
-}
-
-class Screens {
-  final Map<ScreenId, Widget> _screens;
-
-  Screens(LoggedUser user, VoidCallback onLogout) : _screens = {
-    ScreenId.posts: PostsScreen(),
-    ScreenId.workspace: Text('Workspace Screen'),
-    ScreenId.media: Text('Media Screen'),
-    ScreenId.profile: ProfileScreen(
-      user: user,
-      onLogout: onLogout,
-    ),
-  };
-
-  Widget? get(ScreenId id) {
-    return _screens[id];
-  }
 }

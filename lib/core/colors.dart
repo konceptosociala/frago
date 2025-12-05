@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart';
 
 class NothingColors {
   NothingColors._();
@@ -12,14 +9,3 @@ class NothingColors {
   static const paleGrey = Color(0xFFF1F1FE);
   static const black = Color(0xFF111112);
 }
-
-const debugPhoneSize = Size(460, 870);
-
-bool isDesktop() 
-  => Platform.isLinux 
-  || Platform.isWindows 
-  || Platform.isMacOS;
-
-Option<Uri> parseUri(String url) => Option.tryCatch(() => Uri.parse(url));
-
-void ok() {}

@@ -5,7 +5,6 @@ import 'package:simplegit/src/bindings/simplegit.dart';
 import 'package:simplegit/src/error.dart';
 import 'package:simplegit/src/repo.dart';
 import 'package:simplegit/src/sys.dart';
-import 'package:simplegit/src/utils.dart';
 
 class GitPush {
   LocalRepository? _repo;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frago/widgets/bg_body.dart';
-import 'package:frago/widgets/gaps.dart';
+import 'package:frago/widgets/general/bg_body.dart';
+import 'package:frago/widgets/general/gaps.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:simplegit/simplegit.dart';
 
