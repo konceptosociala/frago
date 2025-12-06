@@ -1,62 +1,138 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'package:option_result/option_result.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:simplegit/src/bindings/simplegit.dart';
 import 'package:simplegit/src/error.dart';
 import 'package:simplegit/src/repo.dart';
 import 'package:simplegit/src/sys.dart';
 
 class GitPush {
-  LocalRepository? _repo;
-  String? _remote;
+  final LocalRepository repo;
+  final String remotePath;
+  final String branch;
+  final String username;
+  final String token;
 
-  GitPush repo(LocalRepository repo) {
-    _repo = repo;
-    return this;
-  }
+  GitPush({
+    required this.repo,
+    required this.remotePath,
+    required this.branch,
+    required this.username,
+    required this.token,
+  });
 
-  GitPush remote(String remote) {
-    _remote = remote;
-    return this;
-  }
+  TaskEither<GitError, void> perform() => TaskEither(() async {
+    final refspecs = ['refs/heads/$branch:refs/heads/$branch'];
+    final remotePtr = calloc<Pointer<git_remote>>();
+    final optionsPtr = calloc<git_push_options>();
+    final stringsPtr = calloc<Pointer<Char>>(refspecs.length);
+    final remoteNamePtr = remotePath.toNativeUtf8().cast<Char>();
 
-  Result<(), GitError> perform() {
-    if (_repo == null) {
-      return Err(GitError(kind: GitErrorKind.repoNotSet));
+    for (int i = 0; i < refspecs.length; i++) {
+      stringsPtr[i] = refspecs[i].toNativeUtf8().cast<Char>();
     }
 
-    if (_remote == null) {
-      return Err(GitError(kind: GitErrorKind.remoteNotSet));
-    }
+    final gitArray = calloc<git_strarray>();
+    gitArray.ref.strings = stringsPtr;
+    gitArray.ref.count = refspecs.length;
 
-    var refspecs = createRefspecs(['refs/heads/main:refs/heads/main']);
-    var remote = calloc<Pointer<git_remote>>();
-    var options = calloc<git_push_options>();
-
-    var repoPtr = _repo!.inner;
-    var remoteName = _remote!.toNativeUtf8().cast<Char>();
+    Pointer<Char>? usernamePtr;
+    Pointer<Char>? tokenPtr;
 
     try {
-      var lookupResult = gitSys.git_remote_lookup(remote, repoPtr, remoteName);
-      if (lookupResult != 0) {
-        return Err(GitError(kind: GitErrorKind.invalidRemote, msg: _remote));
+      final lookup = gitSys.git_remote_lookup(
+        remotePtr,
+        repo.inner,
+        remoteNamePtr,
+      );
+
+      if (lookup != 0) {
+        return Left(
+          GitError(kind: GitErrorKind.invalidRemote, msg: remotePath),
+        );
       }
 
-      gitSys.git_push_options_init(options, GIT_PUSH_OPTIONS_VERSION);
-      // options.ref.callbacks.credentials = cred_cb;
+      gitSys.git_push_options_init(optionsPtr, GIT_PUSH_OPTIONS_VERSION);
 
-      var pushResult = gitSys.git_remote_push(remote.value, refspecs, options);
+      usernamePtr = username.toNativeUtf8().cast<Char>();
+      tokenPtr = token.toNativeUtf8().cast<Char>();
+
+      _storeCredentials(usernamePtr, tokenPtr);
+
+      optionsPtr.ref.callbacks.credentials =
+        Pointer.fromFunction<git_credential_acquire_cbFunction>(
+          _credentialCallback,
+          -1,
+        );
+        
+      final pushResult = gitSys.git_remote_push(
+        remotePtr.value,
+        gitArray,
+        optionsPtr,
+      );
+
       if (pushResult != 0) {
-        return Err(GitError(kind: GitErrorKind.pushError, msg: _remote));
+        final errorPtr = gitSys.git_error_last();
+        String errorMsg = remotePath;
+        if (errorPtr != nullptr) {
+          final errorStruct = errorPtr.ref;
+          if (errorStruct.message != nullptr) {
+            errorMsg = errorStruct.message.cast<Utf8>().toDartString();
+          }
+        }
+        return Left(GitError(kind: GitErrorKind.pushError, msg: errorMsg));
       }
-    } finally {
-      calloc.free(remote);
-      malloc.free(remoteName);
-      malloc.free(refspecs.ref.strings);
-      calloc.free(refspecs);
-      calloc.free(options);
-    }
 
-    return Ok(());
+      return const Right(null);
+    } finally {
+      _clearCredentials();
+
+      calloc.free(remotePtr);
+      malloc.free(remoteNamePtr);
+
+      if (usernamePtr != null) malloc.free(usernamePtr);
+      if (tokenPtr != null) malloc.free(tokenPtr);
+
+      for (int i = 0; i < refspecs.length; i++) {
+        malloc.free(stringsPtr[i]);
+      }
+
+      calloc.free(stringsPtr);
+      calloc.free(gitArray);
+      calloc.free(optionsPtr);
+    }
+  });
+}
+
+Pointer<Char>? _globalUsername;
+Pointer<Char>? _globalToken;
+
+void _storeCredentials(Pointer<Char> username, Pointer<Char> token) {
+  _globalUsername = username;
+  _globalToken = token;
+}
+
+void _clearCredentials() {
+  _globalUsername = null;
+  _globalToken = null;
+}
+
+int _credentialCallback(
+  Pointer<Pointer<git_credential>> out,
+  Pointer<Char> url,
+  Pointer<Char> usernameFromUrl,
+  int allowedTypes,
+  Pointer<Void> payload,
+) {
+  if (_globalUsername == null || _globalToken == null) {
+    return -1;
   }
+
+  final result = gitSys.git_credential_userpass_plaintext_new(
+    out,
+    _globalUsername!,
+    _globalToken!,
+  );
+
+  return result;
 }

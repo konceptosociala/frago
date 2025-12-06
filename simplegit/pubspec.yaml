@@ -7,8 +7,9 @@ environment:
 
 dependencies:
   ffi: ^2.1.0
-  option_result: ^3.2.1
-
+  fpdart: ^1.2.0
+  path: ^1.9.1
+  
 dev_dependencies:
   ffigen: ^11.0.0
   lints: ^5.0.0

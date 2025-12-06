@@ -1,7 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:simplegit/src/bindings/simplegit.dart';
-import 'package:ffi/ffi.dart';
 
 final GitSys gitSys = _initGitLib();
 
@@ -16,18 +15,4 @@ GitSys _initGitLib() {
   }
   
   return GitSys(lib);
-}
-
-Pointer<git_strarray> createRefspecs(List<String> strings) {
-  final strarrayPtr = calloc<git_strarray>(sizeOf<git_strarray>());
-  final ptrs = calloc<Pointer<Utf8>>(sizeOf<Pointer<Utf8>>() * strings.length);
-
-  for (var i = 0; i < strings.length; i++) {
-    ptrs[i] = strings[i].toNativeUtf8();
-  }
-
-  strarrayPtr.ref.strings = ptrs.cast<Pointer<Char>>();
-  strarrayPtr.ref.count = strings.length;
-
-  return strarrayPtr;
 }
