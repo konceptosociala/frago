@@ -4,7 +4,7 @@ import 'package:frago/widgets/general/bg_body.dart';
 import 'package:frago/widgets/posts/post_selection.dart';
 import 'package:frago/widgets/posts/posts_scrollview.dart';
 
-class PostsScreen extends StatelessWidget {
+class PostsPage extends StatelessWidget {
   final List<PostDescr> posts;
   final bool postSelectionMode;
   final void Function(int) onTogglePostSelection;
@@ -13,7 +13,7 @@ class PostsScreen extends StatelessWidget {
   final VoidCallback onSelectAllPosts;
   final VoidCallback onDeleteSelectedPosts;
 
-  const PostsScreen({
+  const PostsPage({
     super.key,
     required this.posts,
     required this.postSelectionMode,

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frago/core/theme_data.dart';
-import 'package:frago/core/screen_id.dart';
+import 'package:frago/core/page_id.dart';
 
 class NavBar extends StatelessWidget {
-  final ScreenId currentScreen;
-  final Function(ScreenId) onScreenSelected;
+  final PageId currentPage;
+  final Function(PageId) onPageSelected;
   final List<BottomNavigationBarItem> items;
 
   const NavBar({
     super.key,
-    required this.currentScreen,
-    required this.onScreenSelected,
+    required this.currentPage,
+    required this.onPageSelected,
     required this.items,
   });
 
@@ -27,10 +27,10 @@ class NavBar extends StatelessWidget {
           data: darkTheme(interactive: false),
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            currentIndex: currentScreen.toIndex(),
+            currentIndex: currentPage.toIndex(),
             onTap: (index) {
               if (items.length % 2 != 0 && index != (items.length / 2).floor()) {
-                onScreenSelected(ScreenId.fromIndex(index));
+                onPageSelected(PageId.fromIndex(index));
               }
             },
             items: items,

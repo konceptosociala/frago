@@ -7,17 +7,17 @@ import 'package:frago/widgets/general/gaps.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:simplegit/simplegit.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   final LoggedUser user;
   final VoidCallback onLogout;
 
-  const ProfileScreen({super.key, required this.user, required this.onLogout});
+  const ProfilePage({super.key, required this.user, required this.onLogout});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();

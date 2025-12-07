@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fpdart/fpdart.dart' show Left, None, Right, Some, TaskEither;
 import 'package:frago/core/event.dart';
 import 'package:frago/core/mvu.dart';
 import 'package:frago/core/theme_data.dart';
 import 'package:frago/core/utils.dart';
 import 'package:frago/models/app_model.dart';
-import 'package:frago/models/post.dart';
 import 'package:frago/widgets/general/gaps.dart';
 import 'package:frago/widgets/homepage.dart';
 import 'package:frago/widgets/login/misc.dart';
@@ -13,6 +11,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simplegit/simplegit.dart';
 import 'package:window_size/window_size.dart';
+import 'package:fpdart/fpdart.dart' 
+  show 
+    Left, None, Option, Right, Some, TaskEither, Task;
 
 void main() {
   Git.init();
@@ -38,44 +39,86 @@ class AppRoot extends StatelessWidget {
   );
 }
 
-AppModel update(AppModel model, Msg msg) {
+Task<AppModel> update(AppModel model, Msg msg) {
   return switch (msg) {
-    LoginSuccess(:final user) => model.copyWith(
-      loggedUser: Some(user),
-      logged: true,
-      checkedLogin: true,
+    LoadWorkspace() => Task.Do(
+      ($) async {
+        final prefs = await SharedPreferences.getInstance();
+        final workSpace = prefs.getString('frago_current_workspace');
+
+        return model.copyWith(
+          currentWorkspace: Option.fromNullable(workSpace),
+        );
+      }
     ),
 
-    LoginFailure() => model.copyWith(logged: false, checkedLogin: true),
+    LoginSuccess(:final user, :final online) => Task.Do(
+      ($) async {
+        final AppModel newModel;
+        if (online) {
+          newModel = await $(update(model, FetchUserData(user)));
+        } else {
+          newModel = model;
+        }
 
-    Logout() => model.copyWith(loggedUser: None(), logged: false),
+        return newModel.copyWith(
+          loggedUser: Some(user),
+          logged: true,
+          checkedLogin: true,
+          online: online,
+        );
+      }
+    ),
 
-    ChangeScreen(:final screen) => model.copyWith(currentScreen: screen),
+    FetchUserData(:final user) => Task.of(model),
 
-    LoadPosts(:final posts) => model.copyWith(loadedPosts: posts),
+    LoginFailure() => Task.Do(
+      ($) async {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove('frago_logged_user');
 
-    TogglePostSelection(:final index) => model.copyWith(
+        return model.copyWith(
+          logged: false, 
+          checkedLogin: true,
+        );
+      }
+    ),
+
+    Logout() => Task.Do(
+      ($) async {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove('frago_logged_user');
+
+        return model.copyWith(loggedUser: None(), logged: false);
+      }
+    ),
+
+    ChangePage(:final page) => Task.of(model.copyWith(currentPage: page)),
+
+    LoadPosts(:final posts) => Task.of(model.copyWith(loadedPosts: posts)),
+
+    TogglePostSelection(:final index) => Task.of(model.copyWith(
       loadedPosts: List.of(model.loadedPosts)
         ..[index] = model.loadedPosts[index].copyWith(
           selected: !model.loadedPosts[index].selected,
         ),
-    ),
+    )),
 
-    EnterSelectionMode(:final initialIndex) => model.copyWith(
+    EnterSelectionMode(:final initialIndex) => Task.of(model.copyWith(
       postSelectionMode: true,
       loadedPosts: List.of(model.loadedPosts)
         ..[initialIndex] = model.loadedPosts[initialIndex].copyWith(
           selected: true,
         ),
-    ),
+    )),
 
-    ExitSelectionMode() => model.copyWith(
+    ExitSelectionMode() => Task.of(model.copyWith(
       postSelectionMode: false,
       loadedPosts:
           model.loadedPosts.map((p) => p.copyWith(selected: false)).toList(),
-    ),
+    )),
 
-    SelectAllPosts() => model.copyWith(
+    SelectAllPosts() => Task.of(model.copyWith(
       loadedPosts:
         model.loadedPosts.any((p) => !p.selected)
           ? model.loadedPosts
@@ -84,16 +127,40 @@ AppModel update(AppModel model, Msg msg) {
           : model.loadedPosts
             .map((p) => p.copyWith(selected: false))
             .toList(),
-    ),
+    )),
 
-    DeleteSelectedPosts() => model.copyWith(
+    DeleteSelectedPosts() => Task.of(model.copyWith(
       loadedPosts: model.loadedPosts.where((p) => !p.selected).toList(),
       postSelectionMode: false,
+    )),
+
+    ChangeSorting(:final sorting) => Task.of(model.copyWith(
+      postSorting: sorting,
+    )),
+
+    CheckLoginStatus() => Task.Do(
+      ($) async {
+        final prefs = await SharedPreferences.getInstance();
+        final userJson = prefs.getString('frago_logged_user');
+
+        if (userJson == null) {
+          return await $(update(model, LoginFailure()));
+        }
+
+        final user = LoggedUser.fromJson(userJson);
+        final result = await verifyToken(user.token).run();
+
+        return switch (result) {
+          Right() => await $(update(model, LoginSuccess(user, true))),
+
+          Left(value: LoginError(
+            kind: LoginErrorKind.cannotResolve,
+          )) => await $(update(model, LoginSuccess(user, false))),
+              
+          _ => await $(update(model, (LoginFailure()))),
+        };
+      }
     ),
-
-    ChangeSorting(:final sorting) => model.copyWith(postSorting: sorting),
-
-    CheckLoginStatus() => model,
   };
 }
 
@@ -102,105 +169,36 @@ Widget view(AppModel model, void Function(Msg) dispatch) {
     debugShowCheckedModeBanner: false,
     title: 'Frago',
     theme: darkTheme(),
-    home: Builder(
-      builder: (context) {
-        if (!model.checkedLogin) {
-          postFrame(() => _checkLoginStatus(dispatch));
+    home: Builder(builder: (context) {
+      if (!model.checkedLogin) {
+        dispatch(CheckLoginStatus());
 
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        if (!model.logged) {
-          return LoginPage(
-            onLogin: Some((user) => dispatch(LoginSuccess(user))),
-          );
-        }
-
-        if (model.loadedPosts.isEmpty) {
-          postFrame(() => _loadPosts(dispatch));
-        }
-
-        return HomePage(
-          user: model.loggedUser.toNullable()!,
-          currentScreen: model.currentScreen,
-          posts: model.loadedPosts,
-          postSelectionMode: model.postSelectionMode,
-          postSorting: model.postSorting,
-          onScreenChange: (screen) => dispatch(ChangeScreen(screen)),
-          onLogout: () async {
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.remove('frago_logged_user');
-            dispatch(Logout());
-          },
-          onTogglePostSelection: (i) => dispatch(TogglePostSelection(i)),
-          onEnterSelectionMode: (i) => dispatch(EnterSelectionMode(i)),
-          onExitSelectionMode: () => dispatch(ExitSelectionMode()),
-          onSelectAllPosts: () => dispatch(SelectAllPosts()),
-          onDeleteSelectedPosts: () => dispatch(DeleteSelectedPosts()),
-          onChangeSorting: (sorting) => dispatch(ChangeSorting(sorting)),
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
         );
-      },
-    ),
-  );
-}
-
-void _loadPosts(void Function(Msg) dispatch) async {
-  // TODO: retrieve posts from repository
-  final tempPosts = [
-    PostDescr(
-      title: 'Making a Static Blog in Elm: Why and How?',
-      description:
-          'Warning: this post is more like a cheat sheet than a full tutorial, so you should acquaint yourself with some basics of functional programming, or at least read the official Elm guide first.',
-    ),
-    PostDescr(
-      title: 'Loading 3D texture in Bevy',
-      description:
-          'To load an image into our app Bevy provides us with a custom Image type. However, AssetServer in Bevy (as of version 0.15) only supports 2D image loading for now, so we need to perhaps implement a custom 3D image asset loader. For our tutorial we will use png and jpeg raster image types, but you can also try to implement importing of raw MagicaVoxel data, e.g. using dot_vox crate.',
-    ),
-    PostDescr(
-      title: 'Anguloj inter vektoroj',
-      description:
-          'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
-    ),
-    PostDescr(
-      title: 'Anguloj inter vektoroj',
-      description:
-          'La punkto en la supro de la unuopa vektoro, komencanta de la origino, kiu havas angulon φ al la X-akso, estas:',
-    ),
-  ];
-
-  dispatch(LoadPosts(tempPosts));
-}
-
-void _checkLoginStatus(void Function(Msg) dispatch) async {
-  final prefs = await SharedPreferences.getInstance();
-  final userJson = prefs.getString('frago_logged_user');
-
-  if (userJson == null) {
-    dispatch(LoginFailure());
-    return;
-  }
-
-  final user = LoggedUser.fromJson(userJson);
-
-  final result = await verifyToken(user.token).run();
-  switch (result) {
-    case Right():
-      dispatch(LoginSuccess(user));
-      break;
-
-    case Left(value: final error):
-      if (error.kind == LoginErrorKind.cannotResolve) {
-        dispatch(LoginSuccess(user));
-      } else {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.remove('frago_logged_user');
-        dispatch(LoginFailure());
       }
-      break;
-  }
+
+      dispatch(LoadWorkspace());
+
+      if (!model.logged) {
+        return LoginPage(
+          onLogin: Some((user) => dispatch(LoginSuccess(user, true))),
+        );
+      }
+
+      return HomePage(
+        model: model,
+        onPageChange: (page) => dispatch(ChangePage(page)),
+        onLogout: () => dispatch(Logout()),
+        onTogglePostSelection: (i) => dispatch(TogglePostSelection(i)),
+        onEnterSelectionMode: (i) => dispatch(EnterSelectionMode(i)),
+        onExitSelectionMode: () => dispatch(ExitSelectionMode()),
+        onSelectAllPosts: () => dispatch(SelectAllPosts()),
+        onDeleteSelectedPosts: () => dispatch(DeleteSelectedPosts()),
+        onChangeSorting: (sorting) => dispatch(ChangeSorting(sorting)),
+      );
+    }),
+  );
 }
 
 TaskEither<LoginError, void> verifyToken(String token) => TaskEither.Do(

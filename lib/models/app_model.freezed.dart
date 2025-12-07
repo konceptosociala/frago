@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppModel {
 
- List<PostDescr> get loadedPosts; Option<LoggedUser> get loggedUser; bool get checkedLogin; bool get logged; ScreenId get currentScreen; bool get postSelectionMode; PostSorting get postSorting;
+ List<PostDescr> get loadedPosts; Option<LoggedUser> get loggedUser; bool get checkedLogin; bool get logged; bool get online; PageId get currentPage; bool get postSelectionMode; PostSorting get postSorting; Option<String> get currentWorkspace; List<String> get availableWorkspaces;
 /// Create a copy of AppModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AppModelCopyWith<AppModel> get copyWith => _$AppModelCopyWithImpl<AppModel>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppModel&&const DeepCollectionEquality().equals(other.loadedPosts, loadedPosts)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.checkedLogin, checkedLogin) || other.checkedLogin == checkedLogin)&&(identical(other.logged, logged) || other.logged == logged)&&(identical(other.currentScreen, currentScreen) || other.currentScreen == currentScreen)&&(identical(other.postSelectionMode, postSelectionMode) || other.postSelectionMode == postSelectionMode)&&(identical(other.postSorting, postSorting) || other.postSorting == postSorting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppModel&&const DeepCollectionEquality().equals(other.loadedPosts, loadedPosts)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.checkedLogin, checkedLogin) || other.checkedLogin == checkedLogin)&&(identical(other.logged, logged) || other.logged == logged)&&(identical(other.online, online) || other.online == online)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.postSelectionMode, postSelectionMode) || other.postSelectionMode == postSelectionMode)&&(identical(other.postSorting, postSorting) || other.postSorting == postSorting)&&(identical(other.currentWorkspace, currentWorkspace) || other.currentWorkspace == currentWorkspace)&&const DeepCollectionEquality().equals(other.availableWorkspaces, availableWorkspaces));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(loadedPosts),loggedUser,checkedLogin,logged,currentScreen,postSelectionMode,postSorting);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(loadedPosts),loggedUser,checkedLogin,logged,online,currentPage,postSelectionMode,postSorting,currentWorkspace,const DeepCollectionEquality().hash(availableWorkspaces));
 
 @override
 String toString() {
-  return 'AppModel(loadedPosts: $loadedPosts, loggedUser: $loggedUser, checkedLogin: $checkedLogin, logged: $logged, currentScreen: $currentScreen, postSelectionMode: $postSelectionMode, postSorting: $postSorting)';
+  return 'AppModel(loadedPosts: $loadedPosts, loggedUser: $loggedUser, checkedLogin: $checkedLogin, logged: $logged, online: $online, currentPage: $currentPage, postSelectionMode: $postSelectionMode, postSorting: $postSorting, currentWorkspace: $currentWorkspace, availableWorkspaces: $availableWorkspaces)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AppModelCopyWith<$Res>  {
   factory $AppModelCopyWith(AppModel value, $Res Function(AppModel) _then) = _$AppModelCopyWithImpl;
 @useResult
 $Res call({
- List<PostDescr> loadedPosts, Option<LoggedUser> loggedUser, bool checkedLogin, bool logged, ScreenId currentScreen, bool postSelectionMode, PostSorting postSorting
+ List<PostDescr> loadedPosts, Option<LoggedUser> loggedUser, bool checkedLogin, bool logged, bool online, PageId currentPage, bool postSelectionMode, PostSorting postSorting, Option<String> currentWorkspace, List<String> availableWorkspaces
 });
 
 
@@ -62,16 +62,19 @@ class _$AppModelCopyWithImpl<$Res>
 
 /// Create a copy of AppModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loadedPosts = null,Object? loggedUser = null,Object? checkedLogin = null,Object? logged = null,Object? currentScreen = null,Object? postSelectionMode = null,Object? postSorting = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loadedPosts = null,Object? loggedUser = null,Object? checkedLogin = null,Object? logged = null,Object? online = null,Object? currentPage = null,Object? postSelectionMode = null,Object? postSorting = null,Object? currentWorkspace = null,Object? availableWorkspaces = null,}) {
   return _then(_self.copyWith(
 loadedPosts: null == loadedPosts ? _self.loadedPosts : loadedPosts // ignore: cast_nullable_to_non_nullable
 as List<PostDescr>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as Option<LoggedUser>,checkedLogin: null == checkedLogin ? _self.checkedLogin : checkedLogin // ignore: cast_nullable_to_non_nullable
 as bool,logged: null == logged ? _self.logged : logged // ignore: cast_nullable_to_non_nullable
-as bool,currentScreen: null == currentScreen ? _self.currentScreen : currentScreen // ignore: cast_nullable_to_non_nullable
-as ScreenId,postSelectionMode: null == postSelectionMode ? _self.postSelectionMode : postSelectionMode // ignore: cast_nullable_to_non_nullable
+as bool,online: null == online ? _self.online : online // ignore: cast_nullable_to_non_nullable
+as bool,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
+as PageId,postSelectionMode: null == postSelectionMode ? _self.postSelectionMode : postSelectionMode // ignore: cast_nullable_to_non_nullable
 as bool,postSorting: null == postSorting ? _self.postSorting : postSorting // ignore: cast_nullable_to_non_nullable
-as PostSorting,
+as PostSorting,currentWorkspace: null == currentWorkspace ? _self.currentWorkspace : currentWorkspace // ignore: cast_nullable_to_non_nullable
+as Option<String>,availableWorkspaces: null == availableWorkspaces ? _self.availableWorkspaces : availableWorkspaces // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -156,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  ScreenId currentScreen,  bool postSelectionMode,  PostSorting postSorting)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  bool online,  PageId currentPage,  bool postSelectionMode,  PostSorting postSorting,  Option<String> currentWorkspace,  List<String> availableWorkspaces)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppModel() when $default != null:
-return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.currentScreen,_that.postSelectionMode,_that.postSorting);case _:
+return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.online,_that.currentPage,_that.postSelectionMode,_that.postSorting,_that.currentWorkspace,_that.availableWorkspaces);case _:
   return orElse();
 
 }
@@ -177,10 +180,10 @@ return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logg
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  ScreenId currentScreen,  bool postSelectionMode,  PostSorting postSorting)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  bool online,  PageId currentPage,  bool postSelectionMode,  PostSorting postSorting,  Option<String> currentWorkspace,  List<String> availableWorkspaces)  $default,) {final _that = this;
 switch (_that) {
 case _AppModel():
-return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.currentScreen,_that.postSelectionMode,_that.postSorting);case _:
+return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.online,_that.currentPage,_that.postSelectionMode,_that.postSorting,_that.currentWorkspace,_that.availableWorkspaces);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +200,10 @@ return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logg
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  ScreenId currentScreen,  bool postSelectionMode,  PostSorting postSorting)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<PostDescr> loadedPosts,  Option<LoggedUser> loggedUser,  bool checkedLogin,  bool logged,  bool online,  PageId currentPage,  bool postSelectionMode,  PostSorting postSorting,  Option<String> currentWorkspace,  List<String> availableWorkspaces)?  $default,) {final _that = this;
 switch (_that) {
 case _AppModel() when $default != null:
-return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.currentScreen,_that.postSelectionMode,_that.postSorting);case _:
+return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logged,_that.online,_that.currentPage,_that.postSelectionMode,_that.postSorting,_that.currentWorkspace,_that.availableWorkspaces);case _:
   return null;
 
 }
@@ -212,7 +215,7 @@ return $default(_that.loadedPosts,_that.loggedUser,_that.checkedLogin,_that.logg
 
 
 class _AppModel extends AppModel {
-  const _AppModel({required final  List<PostDescr> loadedPosts, required this.loggedUser, required this.checkedLogin, required this.logged, required this.currentScreen, required this.postSelectionMode, required this.postSorting}): _loadedPosts = loadedPosts,super._();
+  const _AppModel({required final  List<PostDescr> loadedPosts, required this.loggedUser, required this.checkedLogin, required this.logged, required this.online, required this.currentPage, required this.postSelectionMode, required this.postSorting, required this.currentWorkspace, required final  List<String> availableWorkspaces}): _loadedPosts = loadedPosts,_availableWorkspaces = availableWorkspaces,super._();
   
 
  final  List<PostDescr> _loadedPosts;
@@ -225,9 +228,18 @@ class _AppModel extends AppModel {
 @override final  Option<LoggedUser> loggedUser;
 @override final  bool checkedLogin;
 @override final  bool logged;
-@override final  ScreenId currentScreen;
+@override final  bool online;
+@override final  PageId currentPage;
 @override final  bool postSelectionMode;
 @override final  PostSorting postSorting;
+@override final  Option<String> currentWorkspace;
+ final  List<String> _availableWorkspaces;
+@override List<String> get availableWorkspaces {
+  if (_availableWorkspaces is EqualUnmodifiableListView) return _availableWorkspaces;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_availableWorkspaces);
+}
+
 
 /// Create a copy of AppModel
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +251,16 @@ _$AppModelCopyWith<_AppModel> get copyWith => __$AppModelCopyWithImpl<_AppModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppModel&&const DeepCollectionEquality().equals(other._loadedPosts, _loadedPosts)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.checkedLogin, checkedLogin) || other.checkedLogin == checkedLogin)&&(identical(other.logged, logged) || other.logged == logged)&&(identical(other.currentScreen, currentScreen) || other.currentScreen == currentScreen)&&(identical(other.postSelectionMode, postSelectionMode) || other.postSelectionMode == postSelectionMode)&&(identical(other.postSorting, postSorting) || other.postSorting == postSorting));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppModel&&const DeepCollectionEquality().equals(other._loadedPosts, _loadedPosts)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.checkedLogin, checkedLogin) || other.checkedLogin == checkedLogin)&&(identical(other.logged, logged) || other.logged == logged)&&(identical(other.online, online) || other.online == online)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.postSelectionMode, postSelectionMode) || other.postSelectionMode == postSelectionMode)&&(identical(other.postSorting, postSorting) || other.postSorting == postSorting)&&(identical(other.currentWorkspace, currentWorkspace) || other.currentWorkspace == currentWorkspace)&&const DeepCollectionEquality().equals(other._availableWorkspaces, _availableWorkspaces));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_loadedPosts),loggedUser,checkedLogin,logged,currentScreen,postSelectionMode,postSorting);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_loadedPosts),loggedUser,checkedLogin,logged,online,currentPage,postSelectionMode,postSorting,currentWorkspace,const DeepCollectionEquality().hash(_availableWorkspaces));
 
 @override
 String toString() {
-  return 'AppModel(loadedPosts: $loadedPosts, loggedUser: $loggedUser, checkedLogin: $checkedLogin, logged: $logged, currentScreen: $currentScreen, postSelectionMode: $postSelectionMode, postSorting: $postSorting)';
+  return 'AppModel(loadedPosts: $loadedPosts, loggedUser: $loggedUser, checkedLogin: $checkedLogin, logged: $logged, online: $online, currentPage: $currentPage, postSelectionMode: $postSelectionMode, postSorting: $postSorting, currentWorkspace: $currentWorkspace, availableWorkspaces: $availableWorkspaces)';
 }
 
 
@@ -259,7 +271,7 @@ abstract mixin class _$AppModelCopyWith<$Res> implements $AppModelCopyWith<$Res>
   factory _$AppModelCopyWith(_AppModel value, $Res Function(_AppModel) _then) = __$AppModelCopyWithImpl;
 @override @useResult
 $Res call({
- List<PostDescr> loadedPosts, Option<LoggedUser> loggedUser, bool checkedLogin, bool logged, ScreenId currentScreen, bool postSelectionMode, PostSorting postSorting
+ List<PostDescr> loadedPosts, Option<LoggedUser> loggedUser, bool checkedLogin, bool logged, bool online, PageId currentPage, bool postSelectionMode, PostSorting postSorting, Option<String> currentWorkspace, List<String> availableWorkspaces
 });
 
 
@@ -276,16 +288,19 @@ class __$AppModelCopyWithImpl<$Res>
 
 /// Create a copy of AppModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loadedPosts = null,Object? loggedUser = null,Object? checkedLogin = null,Object? logged = null,Object? currentScreen = null,Object? postSelectionMode = null,Object? postSorting = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loadedPosts = null,Object? loggedUser = null,Object? checkedLogin = null,Object? logged = null,Object? online = null,Object? currentPage = null,Object? postSelectionMode = null,Object? postSorting = null,Object? currentWorkspace = null,Object? availableWorkspaces = null,}) {
   return _then(_AppModel(
 loadedPosts: null == loadedPosts ? _self._loadedPosts : loadedPosts // ignore: cast_nullable_to_non_nullable
 as List<PostDescr>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as Option<LoggedUser>,checkedLogin: null == checkedLogin ? _self.checkedLogin : checkedLogin // ignore: cast_nullable_to_non_nullable
 as bool,logged: null == logged ? _self.logged : logged // ignore: cast_nullable_to_non_nullable
-as bool,currentScreen: null == currentScreen ? _self.currentScreen : currentScreen // ignore: cast_nullable_to_non_nullable
-as ScreenId,postSelectionMode: null == postSelectionMode ? _self.postSelectionMode : postSelectionMode // ignore: cast_nullable_to_non_nullable
+as bool,online: null == online ? _self.online : online // ignore: cast_nullable_to_non_nullable
+as bool,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
+as PageId,postSelectionMode: null == postSelectionMode ? _self.postSelectionMode : postSelectionMode // ignore: cast_nullable_to_non_nullable
 as bool,postSorting: null == postSorting ? _self.postSorting : postSorting // ignore: cast_nullable_to_non_nullable
-as PostSorting,
+as PostSorting,currentWorkspace: null == currentWorkspace ? _self.currentWorkspace : currentWorkspace // ignore: cast_nullable_to_non_nullable
+as Option<String>,availableWorkspaces: null == availableWorkspaces ? _self._availableWorkspaces : availableWorkspaces // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart' show Task;
 
-typedef Update<M, Msg> = M Function(M model, Msg msg);
+typedef Update<M, Msg> = Task<M> Function(M model, Msg msg);
 typedef View<M, Msg> = Widget Function(
   M model, 
   void Function(Msg msg) dispatch,
@@ -31,9 +32,11 @@ class MVUState<M, Msg> extends State<MVU<M, Msg>> {
     model = widget.initialModel;
   }
 
-  void dispatch(Msg msg) {
+  void dispatch(Msg msg) async {
+    final newModel = await widget.update(model, msg).run();
+
     setState(() {
-      model = widget.update(model, msg);
+      model = newModel;
     });
   }
 

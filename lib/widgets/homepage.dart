@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:frago/models/app_model.dart';
 import 'package:frago/models/post.dart';
 import 'package:frago/widgets/general/navbar.dart';
 import 'package:frago/widgets/general/nothing_appbar.dart';
-import 'package:frago/core/screen_id.dart';
+import 'package:frago/core/page_id.dart';
 import 'package:frago/widgets/general/sized_fab.dart';
 import 'package:frago/widgets/posts/post_page.dart';
 import 'package:frago/widgets/profile/profile_page.dart';
+import 'package:frago/widgets/workspace/workspace_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:simplegit/simplegit.dart';
 
 class HomePage extends StatelessWidget {
-  final LoggedUser user;
-  final ScreenId currentScreen;
-  final List<PostDescr> posts;
-  final bool postSelectionMode;
-  final PostSorting postSorting;
-  final void Function(ScreenId) onScreenChange;
+  final AppModel model;
+  final void Function(PageId) onPageChange;
   final VoidCallback onLogout;
   final void Function(int) onTogglePostSelection;
   final void Function(int) onEnterSelectionMode;
@@ -26,12 +24,8 @@ class HomePage extends StatelessWidget {
 
   const HomePage({
     super.key,
-    required this.user,
-    required this.currentScreen,
-    required this.posts,
-    required this.postSelectionMode,
-    required this.postSorting,
-    required this.onScreenChange,
+    required this.model,
+    required this.onPageChange,
     required this.onLogout,
     required this.onTogglePostSelection,
     required this.onEnterSelectionMode,
@@ -45,15 +39,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NothingAppBar(
-        label: currentScreen.toString(),
+        label: model.currentPage.toString(),
         icon: PhosphorIcons.sortAscending(),
-        condition: currentScreen == ScreenId.posts,
+        condition: model.currentPage == PageId.posts,
         action: () {
           // TODO: open Sorting dialog
         },
       ),
       extendBody: true,
-      body: _getScreen(),
+      body: _getPage(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedFloatingActionButton(
         height: 72,
@@ -64,8 +58,8 @@ class HomePage extends StatelessWidget {
         },
       ),
       bottomNavigationBar: NavBar(
-        currentScreen: currentScreen,
-        onScreenSelected: onScreenChange,
+        currentPage: model.currentPage,
+        onPageSelected: onPageChange,
         items: [
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.notebook()),
@@ -89,20 +83,25 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _getScreen() {
-    return switch (currentScreen) {
-      ScreenId.posts => PostsScreen(
-        posts: posts,
-        postSelectionMode: postSelectionMode,
+  Widget _getPage() {
+    return switch (model.currentPage) {
+      PageId.posts => PostsPage(
+        posts: model.loadedPosts,
+        postSelectionMode: model.postSelectionMode,
         onTogglePostSelection: onTogglePostSelection,
         onEnterSelectionMode: onEnterSelectionMode,
         onExitSelectionMode: onExitSelectionMode,
         onSelectAllPosts: onSelectAllPosts,
         onDeleteSelectedPosts: onDeleteSelectedPosts,
       ),
-      ScreenId.workspace => const Text('Workspace Screen'),
-      ScreenId.media => const Text('Media Screen'),
-      ScreenId.profile => ProfileScreen(user: user, onLogout: onLogout),
+      PageId.workspace => WorkspacePage(
+        online: model.online,
+      ),
+      PageId.media => const Text('Media Page'),
+      PageId.profile => ProfilePage(
+        user: model.loggedUser.getOrElse(() => throw 'Unreachable'), 
+        onLogout: onLogout,
+      ),
     };
   }
 }

@@ -12,11 +12,17 @@ part of 'event.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$Msg {
+mixin _$Msg implements DiagnosticableTreeMixin {
 
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -28,7 +34,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg()';
 }
 
@@ -55,22 +61,24 @@ extension MsgPatterns on Msg {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckLoginStatus value)?  checkLoginStatus,TResult Function( LoginSuccess value)?  loginSuccess,TResult Function( LoginFailure value)?  loginFailure,TResult Function( Logout value)?  logout,TResult Function( ChangeScreen value)?  changeScreen,TResult Function( LoadPosts value)?  loadPosts,TResult Function( TogglePostSelection value)?  togglePostSelection,TResult Function( EnterSelectionMode value)?  enterSelectionMode,TResult Function( ExitSelectionMode value)?  exitSelectionMode,TResult Function( SelectAllPosts value)?  selectAllPosts,TResult Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult Function( ChangeSorting value)?  changeSorting,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckLoginStatus value)?  checkLoginStatus,TResult Function( LoginSuccess value)?  loginSuccess,TResult Function( LoginFailure value)?  loginFailure,TResult Function( Logout value)?  logout,TResult Function( ChangePage value)?  changePage,TResult Function( LoadPosts value)?  loadPosts,TResult Function( TogglePostSelection value)?  togglePostSelection,TResult Function( EnterSelectionMode value)?  enterSelectionMode,TResult Function( ExitSelectionMode value)?  exitSelectionMode,TResult Function( SelectAllPosts value)?  selectAllPosts,TResult Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult Function( ChangeSorting value)?  changeSorting,TResult Function( LoadWorkspace value)?  loadWorkspace,TResult Function( FetchUserData value)?  fetchUserData,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus(_that);case LoginSuccess() when loginSuccess != null:
 return loginSuccess(_that);case LoginFailure() when loginFailure != null:
 return loginFailure(_that);case Logout() when logout != null:
-return logout(_that);case ChangeScreen() when changeScreen != null:
-return changeScreen(_that);case LoadPosts() when loadPosts != null:
+return logout(_that);case ChangePage() when changePage != null:
+return changePage(_that);case LoadPosts() when loadPosts != null:
 return loadPosts(_that);case TogglePostSelection() when togglePostSelection != null:
 return togglePostSelection(_that);case EnterSelectionMode() when enterSelectionMode != null:
 return enterSelectionMode(_that);case ExitSelectionMode() when exitSelectionMode != null:
 return exitSelectionMode(_that);case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts(_that);case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts(_that);case ChangeSorting() when changeSorting != null:
-return changeSorting(_that);case _:
+return changeSorting(_that);case LoadWorkspace() when loadWorkspace != null:
+return loadWorkspace(_that);case FetchUserData() when fetchUserData != null:
+return fetchUserData(_that);case _:
   return orElse();
 
 }
@@ -88,22 +96,24 @@ return changeSorting(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckLoginStatus value)  checkLoginStatus,required TResult Function( LoginSuccess value)  loginSuccess,required TResult Function( LoginFailure value)  loginFailure,required TResult Function( Logout value)  logout,required TResult Function( ChangeScreen value)  changeScreen,required TResult Function( LoadPosts value)  loadPosts,required TResult Function( TogglePostSelection value)  togglePostSelection,required TResult Function( EnterSelectionMode value)  enterSelectionMode,required TResult Function( ExitSelectionMode value)  exitSelectionMode,required TResult Function( SelectAllPosts value)  selectAllPosts,required TResult Function( DeleteSelectedPosts value)  deleteSelectedPosts,required TResult Function( ChangeSorting value)  changeSorting,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckLoginStatus value)  checkLoginStatus,required TResult Function( LoginSuccess value)  loginSuccess,required TResult Function( LoginFailure value)  loginFailure,required TResult Function( Logout value)  logout,required TResult Function( ChangePage value)  changePage,required TResult Function( LoadPosts value)  loadPosts,required TResult Function( TogglePostSelection value)  togglePostSelection,required TResult Function( EnterSelectionMode value)  enterSelectionMode,required TResult Function( ExitSelectionMode value)  exitSelectionMode,required TResult Function( SelectAllPosts value)  selectAllPosts,required TResult Function( DeleteSelectedPosts value)  deleteSelectedPosts,required TResult Function( ChangeSorting value)  changeSorting,required TResult Function( LoadWorkspace value)  loadWorkspace,required TResult Function( FetchUserData value)  fetchUserData,}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus():
 return checkLoginStatus(_that);case LoginSuccess():
 return loginSuccess(_that);case LoginFailure():
 return loginFailure(_that);case Logout():
-return logout(_that);case ChangeScreen():
-return changeScreen(_that);case LoadPosts():
+return logout(_that);case ChangePage():
+return changePage(_that);case LoadPosts():
 return loadPosts(_that);case TogglePostSelection():
 return togglePostSelection(_that);case EnterSelectionMode():
 return enterSelectionMode(_that);case ExitSelectionMode():
 return exitSelectionMode(_that);case SelectAllPosts():
 return selectAllPosts(_that);case DeleteSelectedPosts():
 return deleteSelectedPosts(_that);case ChangeSorting():
-return changeSorting(_that);}
+return changeSorting(_that);case LoadWorkspace():
+return loadWorkspace(_that);case FetchUserData():
+return fetchUserData(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -117,22 +127,24 @@ return changeSorting(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckLoginStatus value)?  checkLoginStatus,TResult? Function( LoginSuccess value)?  loginSuccess,TResult? Function( LoginFailure value)?  loginFailure,TResult? Function( Logout value)?  logout,TResult? Function( ChangeScreen value)?  changeScreen,TResult? Function( LoadPosts value)?  loadPosts,TResult? Function( TogglePostSelection value)?  togglePostSelection,TResult? Function( EnterSelectionMode value)?  enterSelectionMode,TResult? Function( ExitSelectionMode value)?  exitSelectionMode,TResult? Function( SelectAllPosts value)?  selectAllPosts,TResult? Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult? Function( ChangeSorting value)?  changeSorting,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckLoginStatus value)?  checkLoginStatus,TResult? Function( LoginSuccess value)?  loginSuccess,TResult? Function( LoginFailure value)?  loginFailure,TResult? Function( Logout value)?  logout,TResult? Function( ChangePage value)?  changePage,TResult? Function( LoadPosts value)?  loadPosts,TResult? Function( TogglePostSelection value)?  togglePostSelection,TResult? Function( EnterSelectionMode value)?  enterSelectionMode,TResult? Function( ExitSelectionMode value)?  exitSelectionMode,TResult? Function( SelectAllPosts value)?  selectAllPosts,TResult? Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult? Function( ChangeSorting value)?  changeSorting,TResult? Function( LoadWorkspace value)?  loadWorkspace,TResult? Function( FetchUserData value)?  fetchUserData,}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus(_that);case LoginSuccess() when loginSuccess != null:
 return loginSuccess(_that);case LoginFailure() when loginFailure != null:
 return loginFailure(_that);case Logout() when logout != null:
-return logout(_that);case ChangeScreen() when changeScreen != null:
-return changeScreen(_that);case LoadPosts() when loadPosts != null:
+return logout(_that);case ChangePage() when changePage != null:
+return changePage(_that);case LoadPosts() when loadPosts != null:
 return loadPosts(_that);case TogglePostSelection() when togglePostSelection != null:
 return togglePostSelection(_that);case EnterSelectionMode() when enterSelectionMode != null:
 return enterSelectionMode(_that);case ExitSelectionMode() when exitSelectionMode != null:
 return exitSelectionMode(_that);case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts(_that);case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts(_that);case ChangeSorting() when changeSorting != null:
-return changeSorting(_that);case _:
+return changeSorting(_that);case LoadWorkspace() when loadWorkspace != null:
+return loadWorkspace(_that);case FetchUserData() when fetchUserData != null:
+return fetchUserData(_that);case _:
   return null;
 
 }
@@ -149,21 +161,23 @@ return changeSorting(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  checkLoginStatus,TResult Function( LoggedUser user)?  loginSuccess,TResult Function()?  loginFailure,TResult Function()?  logout,TResult Function( ScreenId screen)?  changeScreen,TResult Function( List<PostDescr> posts)?  loadPosts,TResult Function( int index)?  togglePostSelection,TResult Function( int initialIndex)?  enterSelectionMode,TResult Function()?  exitSelectionMode,TResult Function()?  selectAllPosts,TResult Function()?  deleteSelectedPosts,TResult Function( PostSorting sorting)?  changeSorting,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  checkLoginStatus,TResult Function( LoggedUser user,  bool online)?  loginSuccess,TResult Function()?  loginFailure,TResult Function()?  logout,TResult Function( PageId page)?  changePage,TResult Function( List<PostDescr> posts)?  loadPosts,TResult Function( int index)?  togglePostSelection,TResult Function( int initialIndex)?  enterSelectionMode,TResult Function()?  exitSelectionMode,TResult Function()?  selectAllPosts,TResult Function()?  deleteSelectedPosts,TResult Function( PostSorting sorting)?  changeSorting,TResult Function()?  loadWorkspace,TResult Function( LoggedUser user)?  fetchUserData,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus();case LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that.user);case LoginFailure() when loginFailure != null:
+return loginSuccess(_that.user,_that.online);case LoginFailure() when loginFailure != null:
 return loginFailure();case Logout() when logout != null:
-return logout();case ChangeScreen() when changeScreen != null:
-return changeScreen(_that.screen);case LoadPosts() when loadPosts != null:
+return logout();case ChangePage() when changePage != null:
+return changePage(_that.page);case LoadPosts() when loadPosts != null:
 return loadPosts(_that.posts);case TogglePostSelection() when togglePostSelection != null:
 return togglePostSelection(_that.index);case EnterSelectionMode() when enterSelectionMode != null:
 return enterSelectionMode(_that.initialIndex);case ExitSelectionMode() when exitSelectionMode != null:
 return exitSelectionMode();case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts();case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts();case ChangeSorting() when changeSorting != null:
-return changeSorting(_that.sorting);case _:
+return changeSorting(_that.sorting);case LoadWorkspace() when loadWorkspace != null:
+return loadWorkspace();case FetchUserData() when fetchUserData != null:
+return fetchUserData(_that.user);case _:
   return orElse();
 
 }
@@ -181,21 +195,23 @@ return changeSorting(_that.sorting);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  checkLoginStatus,required TResult Function( LoggedUser user)  loginSuccess,required TResult Function()  loginFailure,required TResult Function()  logout,required TResult Function( ScreenId screen)  changeScreen,required TResult Function( List<PostDescr> posts)  loadPosts,required TResult Function( int index)  togglePostSelection,required TResult Function( int initialIndex)  enterSelectionMode,required TResult Function()  exitSelectionMode,required TResult Function()  selectAllPosts,required TResult Function()  deleteSelectedPosts,required TResult Function( PostSorting sorting)  changeSorting,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  checkLoginStatus,required TResult Function( LoggedUser user,  bool online)  loginSuccess,required TResult Function()  loginFailure,required TResult Function()  logout,required TResult Function( PageId page)  changePage,required TResult Function( List<PostDescr> posts)  loadPosts,required TResult Function( int index)  togglePostSelection,required TResult Function( int initialIndex)  enterSelectionMode,required TResult Function()  exitSelectionMode,required TResult Function()  selectAllPosts,required TResult Function()  deleteSelectedPosts,required TResult Function( PostSorting sorting)  changeSorting,required TResult Function()  loadWorkspace,required TResult Function( LoggedUser user)  fetchUserData,}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus():
 return checkLoginStatus();case LoginSuccess():
-return loginSuccess(_that.user);case LoginFailure():
+return loginSuccess(_that.user,_that.online);case LoginFailure():
 return loginFailure();case Logout():
-return logout();case ChangeScreen():
-return changeScreen(_that.screen);case LoadPosts():
+return logout();case ChangePage():
+return changePage(_that.page);case LoadPosts():
 return loadPosts(_that.posts);case TogglePostSelection():
 return togglePostSelection(_that.index);case EnterSelectionMode():
 return enterSelectionMode(_that.initialIndex);case ExitSelectionMode():
 return exitSelectionMode();case SelectAllPosts():
 return selectAllPosts();case DeleteSelectedPosts():
 return deleteSelectedPosts();case ChangeSorting():
-return changeSorting(_that.sorting);}
+return changeSorting(_that.sorting);case LoadWorkspace():
+return loadWorkspace();case FetchUserData():
+return fetchUserData(_that.user);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -209,21 +225,23 @@ return changeSorting(_that.sorting);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  checkLoginStatus,TResult? Function( LoggedUser user)?  loginSuccess,TResult? Function()?  loginFailure,TResult? Function()?  logout,TResult? Function( ScreenId screen)?  changeScreen,TResult? Function( List<PostDescr> posts)?  loadPosts,TResult? Function( int index)?  togglePostSelection,TResult? Function( int initialIndex)?  enterSelectionMode,TResult? Function()?  exitSelectionMode,TResult? Function()?  selectAllPosts,TResult? Function()?  deleteSelectedPosts,TResult? Function( PostSorting sorting)?  changeSorting,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  checkLoginStatus,TResult? Function( LoggedUser user,  bool online)?  loginSuccess,TResult? Function()?  loginFailure,TResult? Function()?  logout,TResult? Function( PageId page)?  changePage,TResult? Function( List<PostDescr> posts)?  loadPosts,TResult? Function( int index)?  togglePostSelection,TResult? Function( int initialIndex)?  enterSelectionMode,TResult? Function()?  exitSelectionMode,TResult? Function()?  selectAllPosts,TResult? Function()?  deleteSelectedPosts,TResult? Function( PostSorting sorting)?  changeSorting,TResult? Function()?  loadWorkspace,TResult? Function( LoggedUser user)?  fetchUserData,}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus();case LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that.user);case LoginFailure() when loginFailure != null:
+return loginSuccess(_that.user,_that.online);case LoginFailure() when loginFailure != null:
 return loginFailure();case Logout() when logout != null:
-return logout();case ChangeScreen() when changeScreen != null:
-return changeScreen(_that.screen);case LoadPosts() when loadPosts != null:
+return logout();case ChangePage() when changePage != null:
+return changePage(_that.page);case LoadPosts() when loadPosts != null:
 return loadPosts(_that.posts);case TogglePostSelection() when togglePostSelection != null:
 return togglePostSelection(_that.index);case EnterSelectionMode() when enterSelectionMode != null:
 return enterSelectionMode(_that.initialIndex);case ExitSelectionMode() when exitSelectionMode != null:
 return exitSelectionMode();case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts();case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts();case ChangeSorting() when changeSorting != null:
-return changeSorting(_that.sorting);case _:
+return changeSorting(_that.sorting);case LoadWorkspace() when loadWorkspace != null:
+return loadWorkspace();case FetchUserData() when fetchUserData != null:
+return fetchUserData(_that.user);case _:
   return null;
 
 }
@@ -234,7 +252,7 @@ return changeSorting(_that.sorting);case _:
 /// @nodoc
 
 
-class CheckLoginStatus implements Msg {
+class CheckLoginStatus with DiagnosticableTreeMixin implements Msg {
   const CheckLoginStatus();
   
 
@@ -242,6 +260,12 @@ class CheckLoginStatus implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.checkLoginStatus'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -253,7 +277,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.checkLoginStatus()';
 }
 
@@ -266,11 +290,12 @@ String toString() {
 /// @nodoc
 
 
-class LoginSuccess implements Msg {
-  const LoginSuccess(this.user);
+class LoginSuccess with DiagnosticableTreeMixin implements Msg {
+  const LoginSuccess(this.user, this.online);
   
 
  final  LoggedUser user;
+ final  bool online;
 
 /// Create a copy of Msg
 /// with the given fields replaced by the non-null parameter values.
@@ -279,19 +304,25 @@ class LoginSuccess implements Msg {
 $LoginSuccessCopyWith<LoginSuccess> get copyWith => _$LoginSuccessCopyWithImpl<LoginSuccess>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.loginSuccess'))
+    ..add(DiagnosticsProperty('user', user))..add(DiagnosticsProperty('online', online));
+}
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginSuccess&&(identical(other.user, user) || other.user == user));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginSuccess&&(identical(other.user, user) || other.user == user)&&(identical(other.online, online) || other.online == online));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,user);
+int get hashCode => Object.hash(runtimeType,user,online);
 
 @override
-String toString() {
-  return 'Msg.loginSuccess(user: $user)';
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.loginSuccess(user: $user, online: $online)';
 }
 
 
@@ -302,7 +333,7 @@ abstract mixin class $LoginSuccessCopyWith<$Res> implements $MsgCopyWith<$Res> {
   factory $LoginSuccessCopyWith(LoginSuccess value, $Res Function(LoginSuccess) _then) = _$LoginSuccessCopyWithImpl;
 @useResult
 $Res call({
- LoggedUser user
+ LoggedUser user, bool online
 });
 
 
@@ -319,10 +350,11 @@ class _$LoginSuccessCopyWithImpl<$Res>
 
 /// Create a copy of Msg
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? user = null,Object? online = null,}) {
   return _then(LoginSuccess(
 null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as LoggedUser,
+as LoggedUser,null == online ? _self.online : online // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -332,7 +364,7 @@ as LoggedUser,
 /// @nodoc
 
 
-class LoginFailure implements Msg {
+class LoginFailure with DiagnosticableTreeMixin implements Msg {
   const LoginFailure();
   
 
@@ -340,6 +372,12 @@ class LoginFailure implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.loginFailure'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -351,7 +389,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.loginFailure()';
 }
 
@@ -364,7 +402,7 @@ String toString() {
 /// @nodoc
 
 
-class Logout implements Msg {
+class Logout with DiagnosticableTreeMixin implements Msg {
   const Logout();
   
 
@@ -372,6 +410,12 @@ class Logout implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.logout'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -383,7 +427,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.logout()';
 }
 
@@ -396,43 +440,49 @@ String toString() {
 /// @nodoc
 
 
-class ChangeScreen implements Msg {
-  const ChangeScreen(this.screen);
+class ChangePage with DiagnosticableTreeMixin implements Msg {
+  const ChangePage(this.page);
   
 
- final  ScreenId screen;
+ final  PageId page;
 
 /// Create a copy of Msg
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ChangeScreenCopyWith<ChangeScreen> get copyWith => _$ChangeScreenCopyWithImpl<ChangeScreen>(this, _$identity);
-
+$ChangePageCopyWith<ChangePage> get copyWith => _$ChangePageCopyWithImpl<ChangePage>(this, _$identity);
 
 
 @override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.changePage'))
+    ..add(DiagnosticsProperty('page', page));
+}
+
+@override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangeScreen&&(identical(other.screen, screen) || other.screen == screen));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChangePage&&(identical(other.page, page) || other.page == page));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,screen);
+int get hashCode => Object.hash(runtimeType,page);
 
 @override
-String toString() {
-  return 'Msg.changeScreen(screen: $screen)';
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.changePage(page: $page)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ChangeScreenCopyWith<$Res> implements $MsgCopyWith<$Res> {
-  factory $ChangeScreenCopyWith(ChangeScreen value, $Res Function(ChangeScreen) _then) = _$ChangeScreenCopyWithImpl;
+abstract mixin class $ChangePageCopyWith<$Res> implements $MsgCopyWith<$Res> {
+  factory $ChangePageCopyWith(ChangePage value, $Res Function(ChangePage) _then) = _$ChangePageCopyWithImpl;
 @useResult
 $Res call({
- ScreenId screen
+ PageId page
 });
 
 
@@ -440,19 +490,19 @@ $Res call({
 
 }
 /// @nodoc
-class _$ChangeScreenCopyWithImpl<$Res>
-    implements $ChangeScreenCopyWith<$Res> {
-  _$ChangeScreenCopyWithImpl(this._self, this._then);
+class _$ChangePageCopyWithImpl<$Res>
+    implements $ChangePageCopyWith<$Res> {
+  _$ChangePageCopyWithImpl(this._self, this._then);
 
-  final ChangeScreen _self;
-  final $Res Function(ChangeScreen) _then;
+  final ChangePage _self;
+  final $Res Function(ChangePage) _then;
 
 /// Create a copy of Msg
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? screen = null,}) {
-  return _then(ChangeScreen(
-null == screen ? _self.screen : screen // ignore: cast_nullable_to_non_nullable
-as ScreenId,
+@pragma('vm:prefer-inline') $Res call({Object? page = null,}) {
+  return _then(ChangePage(
+null == page ? _self.page : page // ignore: cast_nullable_to_non_nullable
+as PageId,
   ));
 }
 
@@ -462,7 +512,7 @@ as ScreenId,
 /// @nodoc
 
 
-class LoadPosts implements Msg {
+class LoadPosts with DiagnosticableTreeMixin implements Msg {
   const LoadPosts(final  List<PostDescr> posts): _posts = posts;
   
 
@@ -481,6 +531,12 @@ class LoadPosts implements Msg {
 $LoadPostsCopyWith<LoadPosts> get copyWith => _$LoadPostsCopyWithImpl<LoadPosts>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.loadPosts'))
+    ..add(DiagnosticsProperty('posts', posts));
+}
 
 @override
 bool operator ==(Object other) {
@@ -492,7 +548,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_posts));
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.loadPosts(posts: $posts)';
 }
 
@@ -534,7 +590,7 @@ as List<PostDescr>,
 /// @nodoc
 
 
-class TogglePostSelection implements Msg {
+class TogglePostSelection with DiagnosticableTreeMixin implements Msg {
   const TogglePostSelection(this.index);
   
 
@@ -547,6 +603,12 @@ class TogglePostSelection implements Msg {
 $TogglePostSelectionCopyWith<TogglePostSelection> get copyWith => _$TogglePostSelectionCopyWithImpl<TogglePostSelection>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.togglePostSelection'))
+    ..add(DiagnosticsProperty('index', index));
+}
 
 @override
 bool operator ==(Object other) {
@@ -558,7 +620,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,index);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.togglePostSelection(index: $index)';
 }
 
@@ -600,7 +662,7 @@ as int,
 /// @nodoc
 
 
-class EnterSelectionMode implements Msg {
+class EnterSelectionMode with DiagnosticableTreeMixin implements Msg {
   const EnterSelectionMode(this.initialIndex);
   
 
@@ -613,6 +675,12 @@ class EnterSelectionMode implements Msg {
 $EnterSelectionModeCopyWith<EnterSelectionMode> get copyWith => _$EnterSelectionModeCopyWithImpl<EnterSelectionMode>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.enterSelectionMode'))
+    ..add(DiagnosticsProperty('initialIndex', initialIndex));
+}
 
 @override
 bool operator ==(Object other) {
@@ -624,7 +692,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,initialIndex);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.enterSelectionMode(initialIndex: $initialIndex)';
 }
 
@@ -666,7 +734,7 @@ as int,
 /// @nodoc
 
 
-class ExitSelectionMode implements Msg {
+class ExitSelectionMode with DiagnosticableTreeMixin implements Msg {
   const ExitSelectionMode();
   
 
@@ -674,6 +742,12 @@ class ExitSelectionMode implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.exitSelectionMode'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -685,7 +759,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.exitSelectionMode()';
 }
 
@@ -698,7 +772,7 @@ String toString() {
 /// @nodoc
 
 
-class SelectAllPosts implements Msg {
+class SelectAllPosts with DiagnosticableTreeMixin implements Msg {
   const SelectAllPosts();
   
 
@@ -706,6 +780,12 @@ class SelectAllPosts implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.selectAllPosts'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -717,7 +797,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.selectAllPosts()';
 }
 
@@ -730,7 +810,7 @@ String toString() {
 /// @nodoc
 
 
-class DeleteSelectedPosts implements Msg {
+class DeleteSelectedPosts with DiagnosticableTreeMixin implements Msg {
   const DeleteSelectedPosts();
   
 
@@ -738,6 +818,12 @@ class DeleteSelectedPosts implements Msg {
 
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.deleteSelectedPosts'))
+    ;
+}
 
 @override
 bool operator ==(Object other) {
@@ -749,7 +835,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.deleteSelectedPosts()';
 }
 
@@ -762,7 +848,7 @@ String toString() {
 /// @nodoc
 
 
-class ChangeSorting implements Msg {
+class ChangeSorting with DiagnosticableTreeMixin implements Msg {
   const ChangeSorting(this.sorting);
   
 
@@ -775,6 +861,12 @@ class ChangeSorting implements Msg {
 $ChangeSortingCopyWith<ChangeSorting> get copyWith => _$ChangeSortingCopyWithImpl<ChangeSorting>(this, _$identity);
 
 
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.changeSorting'))
+    ..add(DiagnosticsProperty('sorting', sorting));
+}
 
 @override
 bool operator ==(Object other) {
@@ -786,7 +878,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,sorting);
 
 @override
-String toString() {
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
   return 'Msg.changeSorting(sorting: $sorting)';
 }
 
@@ -819,6 +911,116 @@ class _$ChangeSortingCopyWithImpl<$Res>
   return _then(ChangeSorting(
 null == sorting ? _self.sorting : sorting // ignore: cast_nullable_to_non_nullable
 as PostSorting,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class LoadWorkspace with DiagnosticableTreeMixin implements Msg {
+  const LoadWorkspace();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.loadWorkspace'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadWorkspace);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.loadWorkspace()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class FetchUserData with DiagnosticableTreeMixin implements Msg {
+  const FetchUserData(this.user);
+  
+
+ final  LoggedUser user;
+
+/// Create a copy of Msg
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FetchUserDataCopyWith<FetchUserData> get copyWith => _$FetchUserDataCopyWithImpl<FetchUserData>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.fetchUserData'))
+    ..add(DiagnosticsProperty('user', user));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchUserData&&(identical(other.user, user) || other.user == user));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.fetchUserData(user: $user)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $FetchUserDataCopyWith<$Res> implements $MsgCopyWith<$Res> {
+  factory $FetchUserDataCopyWith(FetchUserData value, $Res Function(FetchUserData) _then) = _$FetchUserDataCopyWithImpl;
+@useResult
+$Res call({
+ LoggedUser user
+});
+
+
+
+
+}
+/// @nodoc
+class _$FetchUserDataCopyWithImpl<$Res>
+    implements $FetchUserDataCopyWith<$Res> {
+  _$FetchUserDataCopyWithImpl(this._self, this._then);
+
+  final FetchUserData _self;
+  final $Res Function(FetchUserData) _then;
+
+/// Create a copy of Msg
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
+  return _then(FetchUserData(
+null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as LoggedUser,
   ));
 }
 
