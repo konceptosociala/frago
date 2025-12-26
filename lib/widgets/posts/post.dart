@@ -4,7 +4,7 @@ import 'package:frago/models/post.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class PostWidget extends StatelessWidget {
-  final PostDescr post;
+  final PostDesc post;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   final bool postSelectionMode;

@@ -14,7 +14,7 @@ import 'package:simplegit/simplegit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ConfirmLogin extends StatelessWidget {
-  final VertificationInfo info;
+  final VerificationInfo info;
 
   const ConfirmLogin({
     super.key,
@@ -22,30 +22,28 @@ class ConfirmLogin extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const ConfirmTitle(),
-            ConfirmCodeRow(info.userCode),
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const ConfirmTitle(),
+          ConfirmCodeRow(info.userCode),
 
-            const GapV(20),
+          const GapV(20),
 
-            ConfirmButtom(
-              deviceCode: info.deviceCode,
-              verificationUri: info.verificationUri,
-            ),
+          ConfirmButton(
+            deviceCode: info.deviceCode,
+            verificationUri: info.verificationUri,
+          ),
 
-            const GapV(20),
+          const GapV(20),
 
-            CancelButton(),
-          ],
-        ),
+          CancelButton(),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 class CancelButton extends StatelessWidget {
@@ -54,17 +52,15 @@ class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => TextButton(
     child: Text('Cancel'),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
+    onPressed: () => Navigator.of(context).pop(),
   );
 }
 
-class ConfirmButtom extends StatelessWidget {
+class ConfirmButton extends StatelessWidget {
   final String verificationUri;
   final String deviceCode;
 
-  const ConfirmButtom({
+  const ConfirmButton({
     super.key, 
     required this.verificationUri,
     required this.deviceCode,

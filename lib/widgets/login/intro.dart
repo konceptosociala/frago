@@ -19,26 +19,24 @@ class Intro extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IntroLogo(),
-            LoginHeading(label: 'Your Frago Blog'),
-            
-            GapV(20),
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IntroLogo(),
+          LoginHeading(label: 'Your Frago Blog'),
+          
+          GapV(20),
 
-            LoginButton(
-              label: "Login to GitHub",
-              onPressed: () => proceedLogin(context),
-            ),
-          ],
-        ),
+          LoginButton(
+            label: "Login to GitHub",
+            onPressed: () => proceedLogin(context),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 
   void proceedLogin(BuildContext context) async {
     final result = await requestDeviceCode(clientId).run();
@@ -84,7 +82,7 @@ class IntroLogo extends StatelessWidget {
   );
 }
 
-TaskEither<LoginError, VertificationInfo> requestDeviceCode(
+TaskEither<LoginError, VerificationInfo> requestDeviceCode(
   String clientId
 ) => TaskEither
   .tryCatch(
@@ -112,7 +110,7 @@ TaskEither<LoginError, VertificationInfo> requestDeviceCode(
         .every((key) => data.containsKey(key)), 
     (_) => LoginError(kind: LoginErrorKind.githubError)
   )
-  .map((data) => VertificationInfo(
+  .map((data) => VerificationInfo(
     deviceCode: data['device_code']!,
     userCode: data['user_code']!,
     verificationUri: data['verification_uri']!,

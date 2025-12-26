@@ -7,58 +7,46 @@ import 'package:frago/widgets/general/gaps.dart';
 import 'package:frago/widgets/login/misc.dart';
 import 'package:simplegit/simplegit.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   final LoggedUser user;
   final VoidCallback onLogout;
 
   const ProfilePage({super.key, required this.user, required this.onLogout});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  Widget build(BuildContext context) => BackgroundBody(
+    svgPath: 'assets/svg/bg.svg',
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 27.0, vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Login: ${user.name}',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Text(
+            'Token: ${_shortenToken(user.token)}',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
 
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+          GapV(20),
 
-  @override
-  Widget build(BuildContext context) {
-    return BackgroundBody(
-      svgPath: 'assets/svg/bg.svg',
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 27.0, vertical: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Login: ${widget.user.name}',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            Text(
-              'Token: ${_shortenToken(widget.user.token)}',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+          TextButton(
+            child: Text('Test git'),
+            onPressed:
+                () async => (await _testGit(user.token).run()).match(
+                  (error) => print('ERROR: $error'),
+                  (_) => print('Success'),
+                ),
+          ),
 
-            GapV(20),
-
-            TextButton(
-              child: Text('Test git'),
-              onPressed:
-                  () async => (await _testGit(widget.user.token).run()).match(
-                    (error) => print('ERROR: $error'),
-                    (_) => print('Success'),
-                  ),
-            ),
-
-            LoginButton(label: 'Log Out', onPressed: widget.onLogout),
-          ],
-        ),
+          LoginButton(label: 'Log Out', onPressed: onLogout),
+        ],
       ),
-    );
-  }
+    ),
+  );
 
   String _shortenToken(String token) {
     if (token.length <= 10) return token;

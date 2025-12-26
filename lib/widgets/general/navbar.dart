@@ -15,30 +15,28 @@ class NavBar extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 12.0,
-      clipBehavior: Clip.antiAlias,
-      padding: EdgeInsets.all(0),
-      child: SizedBox(
-        height: kBottomNavigationBarHeight,
-        child: Theme(
-          data: darkTheme(interactive: false),
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: currentPage.toIndex(),
-            onTap: (index) {
-              if (items.length % 2 != 0 && index != (items.length / 2).floor()) {
-                onPageSelected(PageId.fromIndex(index));
-              }
-            },
-            items: items,
-          ),
+  Widget build(BuildContext context) => BottomAppBar(
+    shape: const CircularNotchedRectangle(),
+    notchMargin: 12.0,
+    clipBehavior: Clip.antiAlias,
+    padding: EdgeInsets.all(0),
+    child: SizedBox(
+      height: kBottomNavigationBarHeight,
+      child: Theme(
+        data: darkTheme(interactive: false),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentPage.toIndex(),
+          onTap: (index) {
+            if (items.length % 2 != 0 && index != (items.length / 2).floor()) {
+              onPageSelected(PageId.fromIndex(index));
+            }
+          },
+          items: items,
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 class EmptyNavigationBarItem extends BottomNavigationBarItem {

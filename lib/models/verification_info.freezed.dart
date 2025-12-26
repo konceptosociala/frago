@@ -12,20 +12,20 @@ part of 'verification_info.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$VertificationInfo {
+mixin _$VerificationInfo {
 
  String get deviceCode; String get userCode; String get verificationUri;
-/// Create a copy of VertificationInfo
+/// Create a copy of VerificationInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$VertificationInfoCopyWith<VertificationInfo> get copyWith => _$VertificationInfoCopyWithImpl<VertificationInfo>(this as VertificationInfo, _$identity);
+$VerificationInfoCopyWith<VerificationInfo> get copyWith => _$VerificationInfoCopyWithImpl<VerificationInfo>(this as VerificationInfo, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VertificationInfo&&(identical(other.deviceCode, deviceCode) || other.deviceCode == deviceCode)&&(identical(other.userCode, userCode) || other.userCode == userCode)&&(identical(other.verificationUri, verificationUri) || other.verificationUri == verificationUri));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VerificationInfo&&(identical(other.deviceCode, deviceCode) || other.deviceCode == deviceCode)&&(identical(other.userCode, userCode) || other.userCode == userCode)&&(identical(other.verificationUri, verificationUri) || other.verificationUri == verificationUri));
 }
 
 
@@ -34,15 +34,15 @@ int get hashCode => Object.hash(runtimeType,deviceCode,userCode,verificationUri)
 
 @override
 String toString() {
-  return 'VertificationInfo(deviceCode: $deviceCode, userCode: $userCode, verificationUri: $verificationUri)';
+  return 'VerificationInfo(deviceCode: $deviceCode, userCode: $userCode, verificationUri: $verificationUri)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $VertificationInfoCopyWith<$Res>  {
-  factory $VertificationInfoCopyWith(VertificationInfo value, $Res Function(VertificationInfo) _then) = _$VertificationInfoCopyWithImpl;
+abstract mixin class $VerificationInfoCopyWith<$Res>  {
+  factory $VerificationInfoCopyWith(VerificationInfo value, $Res Function(VerificationInfo) _then) = _$VerificationInfoCopyWithImpl;
 @useResult
 $Res call({
  String deviceCode, String userCode, String verificationUri
@@ -53,14 +53,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$VertificationInfoCopyWithImpl<$Res>
-    implements $VertificationInfoCopyWith<$Res> {
-  _$VertificationInfoCopyWithImpl(this._self, this._then);
+class _$VerificationInfoCopyWithImpl<$Res>
+    implements $VerificationInfoCopyWith<$Res> {
+  _$VerificationInfoCopyWithImpl(this._self, this._then);
 
-  final VertificationInfo _self;
-  final $Res Function(VertificationInfo) _then;
+  final VerificationInfo _self;
+  final $Res Function(VerificationInfo) _then;
 
-/// Create a copy of VertificationInfo
+/// Create a copy of VerificationInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? deviceCode = null,Object? userCode = null,Object? verificationUri = null,}) {
   return _then(_self.copyWith(
@@ -74,8 +74,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [VertificationInfo].
-extension VertificationInfoPatterns on VertificationInfo {
+/// Adds pattern-matching-related methods to [VerificationInfo].
+extension VerificationInfoPatterns on VerificationInfo {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -207,7 +207,7 @@ return $default(_that.deviceCode,_that.userCode,_that.verificationUri);case _:
 /// @nodoc
 
 
-class _VertificationInfo extends VertificationInfo {
+class _VertificationInfo extends VerificationInfo {
   const _VertificationInfo({required this.deviceCode, required this.userCode, required this.verificationUri}): super._();
   
 
@@ -215,7 +215,7 @@ class _VertificationInfo extends VertificationInfo {
 @override final  String userCode;
 @override final  String verificationUri;
 
-/// Create a copy of VertificationInfo
+/// Create a copy of VerificationInfo
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -234,14 +234,14 @@ int get hashCode => Object.hash(runtimeType,deviceCode,userCode,verificationUri)
 
 @override
 String toString() {
-  return 'VertificationInfo(deviceCode: $deviceCode, userCode: $userCode, verificationUri: $verificationUri)';
+  return 'VerificationInfo(deviceCode: $deviceCode, userCode: $userCode, verificationUri: $verificationUri)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$VertificationInfoCopyWith<$Res> implements $VertificationInfoCopyWith<$Res> {
+abstract mixin class _$VertificationInfoCopyWith<$Res> implements $VerificationInfoCopyWith<$Res> {
   factory _$VertificationInfoCopyWith(_VertificationInfo value, $Res Function(_VertificationInfo) _then) = __$VertificationInfoCopyWithImpl;
 @override @useResult
 $Res call({
@@ -260,7 +260,7 @@ class __$VertificationInfoCopyWithImpl<$Res>
   final _VertificationInfo _self;
   final $Res Function(_VertificationInfo) _then;
 
-/// Create a copy of VertificationInfo
+/// Create a copy of VerificationInfo
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? deviceCode = null,Object? userCode = null,Object? verificationUri = null,}) {
   return _then(_VertificationInfo(

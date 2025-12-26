@@ -16,13 +16,14 @@ sealed class Msg with _$Msg {
   const factory Msg.loginFailure() = LoginFailure;
   const factory Msg.logout() = Logout;
   const factory Msg.changePage(PageId page) = ChangePage;
-  const factory Msg.loadPosts(List<PostDescr> posts) = LoadPosts;
+  const factory Msg.loadPosts(List<PostDesc> posts) = LoadPosts;
   const factory Msg.togglePostSelection(int index) = TogglePostSelection;
   const factory Msg.enterSelectionMode(int initialIndex) = EnterSelectionMode;
   const factory Msg.exitSelectionMode() = ExitSelectionMode;
   const factory Msg.selectAllPosts() = SelectAllPosts;
   const factory Msg.deleteSelectedPosts() = DeleteSelectedPosts;
   const factory Msg.changeSorting(PostSorting sorting) = ChangeSorting;
-  const factory Msg.loadWorkspace() = LoadWorkspace;
-  const factory Msg.fetchUserData(LoggedUser user) = FetchUserData;
+  const factory Msg.loadWorkspace(LoggedUser user) = LoadWorkspace;
+  const factory Msg.postCreated() = PostCreated;
+  const factory Msg.createPostTitleChanged(String title) = CreatePostTitleChanged;
 }

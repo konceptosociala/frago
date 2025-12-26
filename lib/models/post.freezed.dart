@@ -12,20 +12,20 @@ part of 'post.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$PostDescr {
+mixin _$PostDesc {
 
  String get title; String get description; bool get selected;
-/// Create a copy of PostDescr
+/// Create a copy of PostDesc
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$PostDescrCopyWith<PostDescr> get copyWith => _$PostDescrCopyWithImpl<PostDescr>(this as PostDescr, _$identity);
+$PostDescCopyWith<PostDesc> get copyWith => _$PostDescCopyWithImpl<PostDesc>(this as PostDesc, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostDescr&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.selected, selected) || other.selected == selected));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostDesc&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.selected, selected) || other.selected == selected));
 }
 
 
@@ -34,15 +34,15 @@ int get hashCode => Object.hash(runtimeType,title,description,selected);
 
 @override
 String toString() {
-  return 'PostDescr(title: $title, description: $description, selected: $selected)';
+  return 'PostDesc(title: $title, description: $description, selected: $selected)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $PostDescrCopyWith<$Res>  {
-  factory $PostDescrCopyWith(PostDescr value, $Res Function(PostDescr) _then) = _$PostDescrCopyWithImpl;
+abstract mixin class $PostDescCopyWith<$Res>  {
+  factory $PostDescCopyWith(PostDesc value, $Res Function(PostDesc) _then) = _$PostDescCopyWithImpl;
 @useResult
 $Res call({
  String title, String description, bool selected
@@ -53,14 +53,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$PostDescrCopyWithImpl<$Res>
-    implements $PostDescrCopyWith<$Res> {
-  _$PostDescrCopyWithImpl(this._self, this._then);
+class _$PostDescCopyWithImpl<$Res>
+    implements $PostDescCopyWith<$Res> {
+  _$PostDescCopyWithImpl(this._self, this._then);
 
-  final PostDescr _self;
-  final $Res Function(PostDescr) _then;
+  final PostDesc _self;
+  final $Res Function(PostDesc) _then;
 
-/// Create a copy of PostDescr
+/// Create a copy of PostDesc
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? selected = null,}) {
   return _then(_self.copyWith(
@@ -74,8 +74,8 @@ as bool,
 }
 
 
-/// Adds pattern-matching-related methods to [PostDescr].
-extension PostDescrPatterns on PostDescr {
+/// Adds pattern-matching-related methods to [PostDesc].
+extension PostDescPatterns on PostDesc {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -88,10 +88,10 @@ extension PostDescrPatterns on PostDescr {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PostDescr value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PostDesc value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _PostDescr() when $default != null:
+case _PostDesc() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -110,10 +110,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PostDescr value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PostDesc value)  $default,){
 final _that = this;
 switch (_that) {
-case _PostDescr():
+case _PostDesc():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -131,10 +131,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PostDescr value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PostDesc value)?  $default,){
 final _that = this;
 switch (_that) {
-case _PostDescr() when $default != null:
+case _PostDesc() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -154,7 +154,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  bool selected)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _PostDescr() when $default != null:
+case _PostDesc() when $default != null:
 return $default(_that.title,_that.description,_that.selected);case _:
   return orElse();
 
@@ -175,7 +175,7 @@ return $default(_that.title,_that.description,_that.selected);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  bool selected)  $default,) {final _that = this;
 switch (_that) {
-case _PostDescr():
+case _PostDesc():
 return $default(_that.title,_that.description,_that.selected);case _:
   throw StateError('Unexpected subclass');
 
@@ -195,7 +195,7 @@ return $default(_that.title,_that.description,_that.selected);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  bool selected)?  $default,) {final _that = this;
 switch (_that) {
-case _PostDescr() when $default != null:
+case _PostDesc() when $default != null:
 return $default(_that.title,_that.description,_that.selected);case _:
   return null;
 
@@ -207,25 +207,25 @@ return $default(_that.title,_that.description,_that.selected);case _:
 /// @nodoc
 
 
-class _PostDescr extends PostDescr {
-  const _PostDescr({required this.title, required this.description, this.selected = false}): super._();
+class _PostDesc extends PostDesc {
+  const _PostDesc({required this.title, required this.description, this.selected = false}): super._();
   
 
 @override final  String title;
 @override final  String description;
 @override@JsonKey() final  bool selected;
 
-/// Create a copy of PostDescr
+/// Create a copy of PostDesc
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$PostDescrCopyWith<_PostDescr> get copyWith => __$PostDescrCopyWithImpl<_PostDescr>(this, _$identity);
+_$PostDescCopyWith<_PostDesc> get copyWith => __$PostDescCopyWithImpl<_PostDesc>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostDescr&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.selected, selected) || other.selected == selected));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostDesc&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.selected, selected) || other.selected == selected));
 }
 
 
@@ -234,15 +234,15 @@ int get hashCode => Object.hash(runtimeType,title,description,selected);
 
 @override
 String toString() {
-  return 'PostDescr(title: $title, description: $description, selected: $selected)';
+  return 'PostDesc(title: $title, description: $description, selected: $selected)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$PostDescrCopyWith<$Res> implements $PostDescrCopyWith<$Res> {
-  factory _$PostDescrCopyWith(_PostDescr value, $Res Function(_PostDescr) _then) = __$PostDescrCopyWithImpl;
+abstract mixin class _$PostDescCopyWith<$Res> implements $PostDescCopyWith<$Res> {
+  factory _$PostDescCopyWith(_PostDesc value, $Res Function(_PostDesc) _then) = __$PostDescCopyWithImpl;
 @override @useResult
 $Res call({
  String title, String description, bool selected
@@ -253,17 +253,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$PostDescrCopyWithImpl<$Res>
-    implements _$PostDescrCopyWith<$Res> {
-  __$PostDescrCopyWithImpl(this._self, this._then);
+class __$PostDescCopyWithImpl<$Res>
+    implements _$PostDescCopyWith<$Res> {
+  __$PostDescCopyWithImpl(this._self, this._then);
 
-  final _PostDescr _self;
-  final $Res Function(_PostDescr) _then;
+  final _PostDesc _self;
+  final $Res Function(_PostDesc) _then;
 
-/// Create a copy of PostDescr
+/// Create a copy of PostDesc
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? selected = null,}) {
-  return _then(_PostDescr(
+  return _then(_PostDesc(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,selected: null == selected ? _self.selected : selected // ignore: cast_nullable_to_non_nullable

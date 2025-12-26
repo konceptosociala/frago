@@ -6,12 +6,26 @@ ThemeData darkTheme({bool interactive = true}) => ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: NothingColors.almostBlack,
   primaryColor: NothingColors.scarlet,
+  colorScheme: ColorScheme.dark(
+    primary: NothingColors.scarlet,
+    secondary: NothingColors.scarlet,
+    surface: NothingColors.black,
+    error: Colors.red,
+    onPrimary: NothingColors.paleGrey,
+    onSecondary: NothingColors.paleGrey,
+    onSurface: NothingColors.paleGrey,
+    onError: Colors.white,
+  ),
   appBarTheme: const AppBarTheme(
     backgroundColor: NothingColors.almostBlack,
     surfaceTintColor: NothingColors.almostBlack,
     elevation: 0,
     iconTheme: IconThemeData(color: NothingColors.paleGrey),
     titleTextStyle: TextStyle(color: NothingColors.paleGrey, fontSize: 20),
+  ),
+  dialogTheme: const DialogThemeData(
+    backgroundColor: NothingColors.black,
+    surfaceTintColor: Colors.transparent,
   ),
   cardColor: NothingColors.black,
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -22,6 +36,27 @@ ThemeData darkTheme({bool interactive = true}) => ThemeData(
     backgroundColor: NothingColors.black,
     selectedItemColor: NothingColors.paleGrey,
     unselectedItemColor: Colors.white70,
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(color: NothingColors.paleGrey),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Color(0xFF444444)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: NothingColors.scarlet),
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: NothingColors.paleGrey,
+      backgroundColor: NothingColors.darkGrey,
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: NothingColors.scarlet,
+      foregroundColor: NothingColors.paleGrey,
+    ),
   ),
   textTheme: const TextTheme(
     headlineSmall: TextStyle(

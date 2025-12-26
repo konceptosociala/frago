@@ -61,7 +61,7 @@ extension MsgPatterns on Msg {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckLoginStatus value)?  checkLoginStatus,TResult Function( LoginSuccess value)?  loginSuccess,TResult Function( LoginFailure value)?  loginFailure,TResult Function( Logout value)?  logout,TResult Function( ChangePage value)?  changePage,TResult Function( LoadPosts value)?  loadPosts,TResult Function( TogglePostSelection value)?  togglePostSelection,TResult Function( EnterSelectionMode value)?  enterSelectionMode,TResult Function( ExitSelectionMode value)?  exitSelectionMode,TResult Function( SelectAllPosts value)?  selectAllPosts,TResult Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult Function( ChangeSorting value)?  changeSorting,TResult Function( LoadWorkspace value)?  loadWorkspace,TResult Function( FetchUserData value)?  fetchUserData,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CheckLoginStatus value)?  checkLoginStatus,TResult Function( LoginSuccess value)?  loginSuccess,TResult Function( LoginFailure value)?  loginFailure,TResult Function( Logout value)?  logout,TResult Function( ChangePage value)?  changePage,TResult Function( LoadPosts value)?  loadPosts,TResult Function( TogglePostSelection value)?  togglePostSelection,TResult Function( EnterSelectionMode value)?  enterSelectionMode,TResult Function( ExitSelectionMode value)?  exitSelectionMode,TResult Function( SelectAllPosts value)?  selectAllPosts,TResult Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult Function( ChangeSorting value)?  changeSorting,TResult Function( LoadWorkspace value)?  loadWorkspace,TResult Function( PostCreated value)?  postCreated,TResult Function( CreatePostTitleChanged value)?  createPostTitleChanged,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
@@ -77,8 +77,9 @@ return exitSelectionMode(_that);case SelectAllPosts() when selectAllPosts != nul
 return selectAllPosts(_that);case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts(_that);case ChangeSorting() when changeSorting != null:
 return changeSorting(_that);case LoadWorkspace() when loadWorkspace != null:
-return loadWorkspace(_that);case FetchUserData() when fetchUserData != null:
-return fetchUserData(_that);case _:
+return loadWorkspace(_that);case PostCreated() when postCreated != null:
+return postCreated(_that);case CreatePostTitleChanged() when createPostTitleChanged != null:
+return createPostTitleChanged(_that);case _:
   return orElse();
 
 }
@@ -96,7 +97,7 @@ return fetchUserData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckLoginStatus value)  checkLoginStatus,required TResult Function( LoginSuccess value)  loginSuccess,required TResult Function( LoginFailure value)  loginFailure,required TResult Function( Logout value)  logout,required TResult Function( ChangePage value)  changePage,required TResult Function( LoadPosts value)  loadPosts,required TResult Function( TogglePostSelection value)  togglePostSelection,required TResult Function( EnterSelectionMode value)  enterSelectionMode,required TResult Function( ExitSelectionMode value)  exitSelectionMode,required TResult Function( SelectAllPosts value)  selectAllPosts,required TResult Function( DeleteSelectedPosts value)  deleteSelectedPosts,required TResult Function( ChangeSorting value)  changeSorting,required TResult Function( LoadWorkspace value)  loadWorkspace,required TResult Function( FetchUserData value)  fetchUserData,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CheckLoginStatus value)  checkLoginStatus,required TResult Function( LoginSuccess value)  loginSuccess,required TResult Function( LoginFailure value)  loginFailure,required TResult Function( Logout value)  logout,required TResult Function( ChangePage value)  changePage,required TResult Function( LoadPosts value)  loadPosts,required TResult Function( TogglePostSelection value)  togglePostSelection,required TResult Function( EnterSelectionMode value)  enterSelectionMode,required TResult Function( ExitSelectionMode value)  exitSelectionMode,required TResult Function( SelectAllPosts value)  selectAllPosts,required TResult Function( DeleteSelectedPosts value)  deleteSelectedPosts,required TResult Function( ChangeSorting value)  changeSorting,required TResult Function( LoadWorkspace value)  loadWorkspace,required TResult Function( PostCreated value)  postCreated,required TResult Function( CreatePostTitleChanged value)  createPostTitleChanged,}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus():
@@ -112,8 +113,9 @@ return exitSelectionMode(_that);case SelectAllPosts():
 return selectAllPosts(_that);case DeleteSelectedPosts():
 return deleteSelectedPosts(_that);case ChangeSorting():
 return changeSorting(_that);case LoadWorkspace():
-return loadWorkspace(_that);case FetchUserData():
-return fetchUserData(_that);}
+return loadWorkspace(_that);case PostCreated():
+return postCreated(_that);case CreatePostTitleChanged():
+return createPostTitleChanged(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -127,7 +129,7 @@ return fetchUserData(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckLoginStatus value)?  checkLoginStatus,TResult? Function( LoginSuccess value)?  loginSuccess,TResult? Function( LoginFailure value)?  loginFailure,TResult? Function( Logout value)?  logout,TResult? Function( ChangePage value)?  changePage,TResult? Function( LoadPosts value)?  loadPosts,TResult? Function( TogglePostSelection value)?  togglePostSelection,TResult? Function( EnterSelectionMode value)?  enterSelectionMode,TResult? Function( ExitSelectionMode value)?  exitSelectionMode,TResult? Function( SelectAllPosts value)?  selectAllPosts,TResult? Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult? Function( ChangeSorting value)?  changeSorting,TResult? Function( LoadWorkspace value)?  loadWorkspace,TResult? Function( FetchUserData value)?  fetchUserData,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CheckLoginStatus value)?  checkLoginStatus,TResult? Function( LoginSuccess value)?  loginSuccess,TResult? Function( LoginFailure value)?  loginFailure,TResult? Function( Logout value)?  logout,TResult? Function( ChangePage value)?  changePage,TResult? Function( LoadPosts value)?  loadPosts,TResult? Function( TogglePostSelection value)?  togglePostSelection,TResult? Function( EnterSelectionMode value)?  enterSelectionMode,TResult? Function( ExitSelectionMode value)?  exitSelectionMode,TResult? Function( SelectAllPosts value)?  selectAllPosts,TResult? Function( DeleteSelectedPosts value)?  deleteSelectedPosts,TResult? Function( ChangeSorting value)?  changeSorting,TResult? Function( LoadWorkspace value)?  loadWorkspace,TResult? Function( PostCreated value)?  postCreated,TResult? Function( CreatePostTitleChanged value)?  createPostTitleChanged,}){
 final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
@@ -143,8 +145,9 @@ return exitSelectionMode(_that);case SelectAllPosts() when selectAllPosts != nul
 return selectAllPosts(_that);case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts(_that);case ChangeSorting() when changeSorting != null:
 return changeSorting(_that);case LoadWorkspace() when loadWorkspace != null:
-return loadWorkspace(_that);case FetchUserData() when fetchUserData != null:
-return fetchUserData(_that);case _:
+return loadWorkspace(_that);case PostCreated() when postCreated != null:
+return postCreated(_that);case CreatePostTitleChanged() when createPostTitleChanged != null:
+return createPostTitleChanged(_that);case _:
   return null;
 
 }
@@ -161,7 +164,7 @@ return fetchUserData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  checkLoginStatus,TResult Function( LoggedUser user,  bool online)?  loginSuccess,TResult Function()?  loginFailure,TResult Function()?  logout,TResult Function( PageId page)?  changePage,TResult Function( List<PostDescr> posts)?  loadPosts,TResult Function( int index)?  togglePostSelection,TResult Function( int initialIndex)?  enterSelectionMode,TResult Function()?  exitSelectionMode,TResult Function()?  selectAllPosts,TResult Function()?  deleteSelectedPosts,TResult Function( PostSorting sorting)?  changeSorting,TResult Function()?  loadWorkspace,TResult Function( LoggedUser user)?  fetchUserData,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  checkLoginStatus,TResult Function( LoggedUser user,  bool online)?  loginSuccess,TResult Function()?  loginFailure,TResult Function()?  logout,TResult Function( PageId page)?  changePage,TResult Function( List<PostDesc> posts)?  loadPosts,TResult Function( int index)?  togglePostSelection,TResult Function( int initialIndex)?  enterSelectionMode,TResult Function()?  exitSelectionMode,TResult Function()?  selectAllPosts,TResult Function()?  deleteSelectedPosts,TResult Function( PostSorting sorting)?  changeSorting,TResult Function( LoggedUser user)?  loadWorkspace,TResult Function()?  postCreated,TResult Function( String title)?  createPostTitleChanged,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus();case LoginSuccess() when loginSuccess != null:
@@ -176,8 +179,9 @@ return exitSelectionMode();case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts();case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts();case ChangeSorting() when changeSorting != null:
 return changeSorting(_that.sorting);case LoadWorkspace() when loadWorkspace != null:
-return loadWorkspace();case FetchUserData() when fetchUserData != null:
-return fetchUserData(_that.user);case _:
+return loadWorkspace(_that.user);case PostCreated() when postCreated != null:
+return postCreated();case CreatePostTitleChanged() when createPostTitleChanged != null:
+return createPostTitleChanged(_that.title);case _:
   return orElse();
 
 }
@@ -195,7 +199,7 @@ return fetchUserData(_that.user);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  checkLoginStatus,required TResult Function( LoggedUser user,  bool online)  loginSuccess,required TResult Function()  loginFailure,required TResult Function()  logout,required TResult Function( PageId page)  changePage,required TResult Function( List<PostDescr> posts)  loadPosts,required TResult Function( int index)  togglePostSelection,required TResult Function( int initialIndex)  enterSelectionMode,required TResult Function()  exitSelectionMode,required TResult Function()  selectAllPosts,required TResult Function()  deleteSelectedPosts,required TResult Function( PostSorting sorting)  changeSorting,required TResult Function()  loadWorkspace,required TResult Function( LoggedUser user)  fetchUserData,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  checkLoginStatus,required TResult Function( LoggedUser user,  bool online)  loginSuccess,required TResult Function()  loginFailure,required TResult Function()  logout,required TResult Function( PageId page)  changePage,required TResult Function( List<PostDesc> posts)  loadPosts,required TResult Function( int index)  togglePostSelection,required TResult Function( int initialIndex)  enterSelectionMode,required TResult Function()  exitSelectionMode,required TResult Function()  selectAllPosts,required TResult Function()  deleteSelectedPosts,required TResult Function( PostSorting sorting)  changeSorting,required TResult Function( LoggedUser user)  loadWorkspace,required TResult Function()  postCreated,required TResult Function( String title)  createPostTitleChanged,}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus():
 return checkLoginStatus();case LoginSuccess():
@@ -210,8 +214,9 @@ return exitSelectionMode();case SelectAllPosts():
 return selectAllPosts();case DeleteSelectedPosts():
 return deleteSelectedPosts();case ChangeSorting():
 return changeSorting(_that.sorting);case LoadWorkspace():
-return loadWorkspace();case FetchUserData():
-return fetchUserData(_that.user);}
+return loadWorkspace(_that.user);case PostCreated():
+return postCreated();case CreatePostTitleChanged():
+return createPostTitleChanged(_that.title);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -225,7 +230,7 @@ return fetchUserData(_that.user);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  checkLoginStatus,TResult? Function( LoggedUser user,  bool online)?  loginSuccess,TResult? Function()?  loginFailure,TResult? Function()?  logout,TResult? Function( PageId page)?  changePage,TResult? Function( List<PostDescr> posts)?  loadPosts,TResult? Function( int index)?  togglePostSelection,TResult? Function( int initialIndex)?  enterSelectionMode,TResult? Function()?  exitSelectionMode,TResult? Function()?  selectAllPosts,TResult? Function()?  deleteSelectedPosts,TResult? Function( PostSorting sorting)?  changeSorting,TResult? Function()?  loadWorkspace,TResult? Function( LoggedUser user)?  fetchUserData,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  checkLoginStatus,TResult? Function( LoggedUser user,  bool online)?  loginSuccess,TResult? Function()?  loginFailure,TResult? Function()?  logout,TResult? Function( PageId page)?  changePage,TResult? Function( List<PostDesc> posts)?  loadPosts,TResult? Function( int index)?  togglePostSelection,TResult? Function( int initialIndex)?  enterSelectionMode,TResult? Function()?  exitSelectionMode,TResult? Function()?  selectAllPosts,TResult? Function()?  deleteSelectedPosts,TResult? Function( PostSorting sorting)?  changeSorting,TResult? Function( LoggedUser user)?  loadWorkspace,TResult? Function()?  postCreated,TResult? Function( String title)?  createPostTitleChanged,}) {final _that = this;
 switch (_that) {
 case CheckLoginStatus() when checkLoginStatus != null:
 return checkLoginStatus();case LoginSuccess() when loginSuccess != null:
@@ -240,8 +245,9 @@ return exitSelectionMode();case SelectAllPosts() when selectAllPosts != null:
 return selectAllPosts();case DeleteSelectedPosts() when deleteSelectedPosts != null:
 return deleteSelectedPosts();case ChangeSorting() when changeSorting != null:
 return changeSorting(_that.sorting);case LoadWorkspace() when loadWorkspace != null:
-return loadWorkspace();case FetchUserData() when fetchUserData != null:
-return fetchUserData(_that.user);case _:
+return loadWorkspace(_that.user);case PostCreated() when postCreated != null:
+return postCreated();case CreatePostTitleChanged() when createPostTitleChanged != null:
+return createPostTitleChanged(_that.title);case _:
   return null;
 
 }
@@ -513,11 +519,11 @@ as PageId,
 
 
 class LoadPosts with DiagnosticableTreeMixin implements Msg {
-  const LoadPosts(final  List<PostDescr> posts): _posts = posts;
+  const LoadPosts(final  List<PostDesc> posts): _posts = posts;
   
 
- final  List<PostDescr> _posts;
- List<PostDescr> get posts {
+ final  List<PostDesc> _posts;
+ List<PostDesc> get posts {
   if (_posts is EqualUnmodifiableListView) return _posts;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_posts);
@@ -560,7 +566,7 @@ abstract mixin class $LoadPostsCopyWith<$Res> implements $MsgCopyWith<$Res> {
   factory $LoadPostsCopyWith(LoadPosts value, $Res Function(LoadPosts) _then) = _$LoadPostsCopyWithImpl;
 @useResult
 $Res call({
- List<PostDescr> posts
+ List<PostDesc> posts
 });
 
 
@@ -580,7 +586,7 @@ class _$LoadPostsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? posts = null,}) {
   return _then(LoadPosts(
 null == posts ? _self._posts : posts // ignore: cast_nullable_to_non_nullable
-as List<PostDescr>,
+as List<PostDesc>,
   ));
 }
 
@@ -921,45 +927,7 @@ as PostSorting,
 
 
 class LoadWorkspace with DiagnosticableTreeMixin implements Msg {
-  const LoadWorkspace();
-  
-
-
-
-
-
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'Msg.loadWorkspace'))
-    ;
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadWorkspace);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'Msg.loadWorkspace()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class FetchUserData with DiagnosticableTreeMixin implements Msg {
-  const FetchUserData(this.user);
+  const LoadWorkspace(this.user);
   
 
  final  LoggedUser user;
@@ -968,19 +936,19 @@ class FetchUserData with DiagnosticableTreeMixin implements Msg {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$FetchUserDataCopyWith<FetchUserData> get copyWith => _$FetchUserDataCopyWithImpl<FetchUserData>(this, _$identity);
+$LoadWorkspaceCopyWith<LoadWorkspace> get copyWith => _$LoadWorkspaceCopyWithImpl<LoadWorkspace>(this, _$identity);
 
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
-    ..add(DiagnosticsProperty('type', 'Msg.fetchUserData'))
+    ..add(DiagnosticsProperty('type', 'Msg.loadWorkspace'))
     ..add(DiagnosticsProperty('user', user));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FetchUserData&&(identical(other.user, user) || other.user == user));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoadWorkspace&&(identical(other.user, user) || other.user == user));
 }
 
 
@@ -989,15 +957,15 @@ int get hashCode => Object.hash(runtimeType,user);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'Msg.fetchUserData(user: $user)';
+  return 'Msg.loadWorkspace(user: $user)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $FetchUserDataCopyWith<$Res> implements $MsgCopyWith<$Res> {
-  factory $FetchUserDataCopyWith(FetchUserData value, $Res Function(FetchUserData) _then) = _$FetchUserDataCopyWithImpl;
+abstract mixin class $LoadWorkspaceCopyWith<$Res> implements $MsgCopyWith<$Res> {
+  factory $LoadWorkspaceCopyWith(LoadWorkspace value, $Res Function(LoadWorkspace) _then) = _$LoadWorkspaceCopyWithImpl;
 @useResult
 $Res call({
  LoggedUser user
@@ -1008,19 +976,129 @@ $Res call({
 
 }
 /// @nodoc
-class _$FetchUserDataCopyWithImpl<$Res>
-    implements $FetchUserDataCopyWith<$Res> {
-  _$FetchUserDataCopyWithImpl(this._self, this._then);
+class _$LoadWorkspaceCopyWithImpl<$Res>
+    implements $LoadWorkspaceCopyWith<$Res> {
+  _$LoadWorkspaceCopyWithImpl(this._self, this._then);
 
-  final FetchUserData _self;
-  final $Res Function(FetchUserData) _then;
+  final LoadWorkspace _self;
+  final $Res Function(LoadWorkspace) _then;
 
 /// Create a copy of Msg
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
-  return _then(FetchUserData(
+  return _then(LoadWorkspace(
 null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as LoggedUser,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class PostCreated with DiagnosticableTreeMixin implements Msg {
+  const PostCreated();
+  
+
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.postCreated'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostCreated);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.postCreated()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class CreatePostTitleChanged with DiagnosticableTreeMixin implements Msg {
+  const CreatePostTitleChanged(this.title);
+  
+
+ final  String title;
+
+/// Create a copy of Msg
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreatePostTitleChangedCopyWith<CreatePostTitleChanged> get copyWith => _$CreatePostTitleChangedCopyWithImpl<CreatePostTitleChanged>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'Msg.createPostTitleChanged'))
+    ..add(DiagnosticsProperty('title', title));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreatePostTitleChanged&&(identical(other.title, title) || other.title == title));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,title);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'Msg.createPostTitleChanged(title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreatePostTitleChangedCopyWith<$Res> implements $MsgCopyWith<$Res> {
+  factory $CreatePostTitleChangedCopyWith(CreatePostTitleChanged value, $Res Function(CreatePostTitleChanged) _then) = _$CreatePostTitleChangedCopyWithImpl;
+@useResult
+$Res call({
+ String title
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreatePostTitleChangedCopyWithImpl<$Res>
+    implements $CreatePostTitleChangedCopyWith<$Res> {
+  _$CreatePostTitleChangedCopyWithImpl(this._self, this._then);
+
+  final CreatePostTitleChanged _self;
+  final $Res Function(CreatePostTitleChanged) _then;
+
+/// Create a copy of Msg
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? title = null,}) {
+  return _then(CreatePostTitleChanged(
+null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

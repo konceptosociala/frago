@@ -41,7 +41,5 @@ class MVUState<M, Msg> extends State<MVU<M, Msg>> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return widget.view(model, dispatch);
-  }
+  Widget build(BuildContext context) => widget.view(model, dispatch);
 }

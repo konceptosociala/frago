@@ -15,17 +15,15 @@ class SizedFloatingActionButton extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: FittedBox(
-        child: FloatingActionButton(
-          onPressed: action,
-          shape: const CircleBorder(),
-          child: Icon(icon),
-        ),
+  Widget build(BuildContext context) => SizedBox(
+    height: height,
+    width: width,
+    child: FittedBox(
+      child: FloatingActionButton(
+        onPressed: action,
+        shape: const CircleBorder(),
+        child: Icon(icon),
       ),
-    );
-  } 
+    ),
+  );
 }

@@ -13,9 +13,7 @@ class LoginPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return Intro(onLogin: onLogin);
-  }
+  Widget build(BuildContext context) => Intro(onLogin: onLogin);
 }
 
 class LoginHeading extends StatelessWidget {
@@ -24,16 +22,14 @@ class LoginHeading extends StatelessWidget {
   final String label;
 
   @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: TextStyle(
-        fontSize: 32,
-        color: NothingColors.paleGrey,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Text(
+    label,
+    style: TextStyle(
+      fontSize: 32,
+      color: NothingColors.paleGrey,
+      fontWeight: FontWeight.bold,
+    ),
+  );
 }
 
 class LoginButton extends StatelessWidget {
@@ -43,19 +39,17 @@ class LoginButton extends StatelessWidget {
   const LoginButton({super.key, required this.label, required this.onPressed});
 
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: NothingColors.scarlet,
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(color: NothingColors.paleGrey, fontSize: 18),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ElevatedButton(
+    onPressed: onPressed,
+    style: ElevatedButton.styleFrom(
+      backgroundColor: NothingColors.scarlet,
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+    ),
+    child: Text(
+      label,
+      style: TextStyle(color: NothingColors.paleGrey, fontSize: 18),
+    ),
+  );
 }
 
 class LoginError {
@@ -103,7 +97,7 @@ enum LoginErrorKind {
   }
 }
 
-void showError(NavigatorState nav, LoginError error) {
+void showError(NavigatorState nav, Object error) {
   showDialog(
     context: nav.context,
     builder: (context) => AlertDialog(
